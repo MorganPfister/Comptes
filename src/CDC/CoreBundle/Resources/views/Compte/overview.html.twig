@@ -1,0 +1,22 @@
+{% extends "CDCCoreBundle:Core:layout.html.twig" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1 data-id="2" class="page-header">
+                <i class="fa fa-university" id="sidenav-span"></i>Vos comptes
+                <small>Ajoutez ou retirez un compte</small>
+            </h1>
+            <hr class="page-header-half-rule" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            {% include 'CDCCoreBundle:Compte:comptetable.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+{% block style %}
+    <script src="{{ asset('js/compte.js') }}"></script>
+{% endblock %}

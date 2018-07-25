@@ -1,0 +1,40 @@
+{% extends "CDCCoreBundle:Core:layout.html.twig" %}
+
+{% block register %}
+    <div class="row" id="login-row">
+        <div class="col-lg-4 col-lg-offset-4 form-loggin">
+            <h2 class="loggin-top">
+                S'inscrire
+                <span id="loggin-key" class="pull-right"><i class="fa fa-user-plus"></i></span>
+            </h2>
+            <div class="loggin-bot">
+                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                {{ form_errors(form.email) }}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                </div>
+                {{ form_errors(form.username) }}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Nom d\'utilisateur'}}) }}
+                </div>
+                {{ form_errors(form.plainPassword.first) }}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe' }}) }}
+                </div>
+                {{ form_errors(form.plainPassword.second) }}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Répéter le mot de passe' }}) }}
+                </div>
+                <button type="submit" id="_submit" class="btn btn-success center-block btn-block" >S'inscrire</button>
+                {{ form_end(form) }}
+                <div class="text-center">
+                    <a href="{{ path('fos_user_security_login') }}">Déjà un compte ?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,108 @@
+#############################
+#         DASHBOARD         #
+#############################
+cdc_core_dashboardpage:
+    path: /
+    defaults:
+        _controller: CDCCoreBundle:Dashboard:index
+
+#############################
+#         TRANSFERT         #
+#############################
+cdc_core_transfertpage:
+    path: /transfert/overview
+    defaults:
+        _controller: CDCCoreBundle:Transfert:overview
+        format: html
+    requirements:
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_profilepage:
+    path: /profile/overview
+    defaults:
+        _controller: CDCCoreBundle:Profile:overview
+        format: html
+    requirements:
+        format: html|xml
+    options:
+        expose: true
+
+#############################
+#         COMPTE            #
+#############################
+cdc_core_comptepage:
+    path: /comptes/overview
+    defaults:
+        _controller: CDCCoreBundle:Compte:overview
+        format: html
+    requirements:
+        format: html|xml
+
+cdc_core_addcompte:
+    path: /compte/addcompte
+    defaults:
+        _controller: CDCCoreBundle:Compte:addCompte
+        format: html
+    requirements:
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_deletecompte:
+    path: /compte/deletecompte/{id}
+    defaults:
+        _controller: CDCCoreBundle:Compte:deleteCompte
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_editcompte:
+    path: /compte/editcompte/{id}
+    defaults:
+        _controller: CDCCoreBundle:COmpte:editCompte
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true
+
+#############################
+#         CATEGORIE         #
+#############################
+cdc_core_categoriepage:
+    path: /categorie/overview
+    defaults:
+        _controller: CDCCoreBundle:Categorie:Overview
+        format: html
+    requirements:
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_addcategorie:
+    path: /categorie/addcategorie/{id}
+    defaults:
+        _controller: CDCCoreBundle:Categorie:addCategorie
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_deletecategorie:
+    path: /categorie/deletecategorie/{id}
+    defaults:
+        _controller: CDCCoreBundle:Categorie:deleteCategorie
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true

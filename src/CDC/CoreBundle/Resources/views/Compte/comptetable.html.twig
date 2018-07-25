@@ -1,0 +1,117 @@
+<div class="grid">
+    <div class="grid-header bg-profile">
+        <i class="fa fa-university"></i>
+        <span class="grid-title">Vos comptes</span>
+    </div>
+    <div class="grid-body profile">
+        <div class="row">
+            <div class="col-lg-12">
+                <table id="tab-compte" class="table table-hover" {% if compte_a|length <= 0 %}style="visibility:collapse"{% endif %}>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Titulaire</th>
+                        <th>Nom</th>
+                        <th>Banque</th>
+                        <th>Solde (€)</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for compte in compte_a %}
+                        <tr data-id="{{ compte.id }}" class="{% if compte.solde > 0 %}info{% else %}danger{% endif %}">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ compte.titulaire }}</td>
+                            <td>{{ compte.nom }}</td>
+                            <td>{{ compte.banque}}</td>
+                            <td>{{ compte.solde }}</td>
+                            <td>
+                                <a href="#" class="edit-compte" id="modal-edit-compte" data-trigger="modal" data-target="#modalEditCompte"><i class="fa fa-pencil-alt bg-blue action"></i></a>
+                                <a href="#" class="delete-compte"><i class="fa fa-times bg-red action"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-success btn-block" id="modal-add-compte" data-trigger="modal" data-target="#modalAddCompte">Ajouter un compte</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALS BEGIN -->
+<div class="nifty-modal blur" id="modalAddCompte">
+    <div class="md-content">
+        <div class="md-title">
+            <h3>Ajouter un compte</h3>
+        </div>
+        <div class="md-body">
+            <form id="form-add-compte" method="post">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input type="text" id="titulaire" name="_titulaire" required="required" placeholder="Titulaire du compte" class="form-control" />
+                </div>
+
+                <div class="input-group compte-name">
+                    <span class="input-group-addon"><i class="fa fa-align-left"></i></span>
+                    <input type="text" id="nom" name="_nom" required="required" placeholder="Nom du compte" class="form-control" />
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                    <input type="text" id="banque" name="_banque" required="required" placeholder="Banque" class="form-control" />
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-money-bill-alt"></i></span>
+                    <input type="number" id="solde" name="_solde" required="required" placeholder="Solde initial" step="0.01" class="form-control" />
+                    <span class="input-group-addon"><i class="fa fa-euro-sign"></i></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="btn-add-compte" name="_submit" >Ajouter</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="nifty-modal blur" id="modalEditCompte">
+    <div class="md-content">
+        <div class="md-title">
+            <h3>Editer le compte</h3>
+        </div>
+        <div class="md-body">
+            <form id="form-edit-compte" method="post">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input type="text" id="titulaire" name="_titulaire" required="required" placeholder="Titulaire du compte" class="form-control" />
+                </div>
+
+                <div class="input-group compte-name">
+                    <span class="input-group-addon"><i class="fa fa-align-left"></i></span>
+                    <input type="text" id="nom" name="_nom" required="required" placeholder="Nom du compte" class="form-control" />
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                    <input type="text" id="banque" name="_banque" required="required" placeholder="Banque" class="form-control" />
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-money-bill-alt"></i></span>
+                    <input type="number" id="solde" name="_solde" required="required" placeholder="Solde initial" step="0.01" class="form-control" />
+                    <span class="input-group-addon"><i class="fa fa-euro-sign"></i></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="btn-edit-compte" name="_submit" >Sauvegarder</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- MODALS END -->
+<!-- MODALS OVERLAY -->
+<div class="md-overlay"></div>

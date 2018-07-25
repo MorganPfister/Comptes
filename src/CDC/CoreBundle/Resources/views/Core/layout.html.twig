@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        {% block navbar %}
+            {{ include('CDCCoreBundle:Core:navbar.html.twig') }}
+        {% endblock %}
+
+        <div class="container-fluid" id="container-main">
+            <div class="row" id="row-main">
+                {% block sidenavbar %}
+                    {{ include('CDCCoreBundle:Core:sidenavbar.html.twig') }}
+                {% endblock %}
+
+
+                <div id="main-page" class="col-lg-10 col-lg-offset-2">
+                    {% block register %}
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            {% block body %}
+                            {% endblock %}
+                        {% else %}
+                            {{ include('@FOSUser/Security/login.html.twig') }}
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/nifty.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/fontawesome-iconpicker.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap-colorpicker.min.css') }}">
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.17/css/jquery.dataTables.min.css">
+            <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.js') }}"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+            <script src="{{ asset('js/layout.js') }}"></script>
+            <script src="{{ asset('js/nifty.js') }}"></script>
+            <script src="{{ asset('js/fontawesome-iconpicker.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap-colorpicker.min.js') }}"></script>
+            <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+        {% endblock %}
+        {% block style %}
+        {% endblock %}
+    </body>
+</html>

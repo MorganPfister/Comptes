@@ -1,0 +1,23 @@
+{% extends "CDCCoreBundle:Core:layout.html.twig" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1 data-id="-1" class="page-header">
+                <i class="fa fa-user" id="sidenav-span"></i>Profil
+                <small>Gérer votre profil</small>
+            </h1>
+            <hr class="page-header-half-rule" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            {% include 'CDCCoreBundle:Profile:profileinfo.html.twig' %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block style %}
+    <script src="{{ asset('js/profile.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,26 @@
+<div class="grid">
+    <div class="grid-header bg-profile">
+        <i class="fa fa-user-edit"></i>
+        <span class="grid-title">Profil</span>
+    </div>
+    <div class="grid-body profile">
+        <div class="row">
+            <div class="col-lg-12 profile-line">
+                <b>Nom d'utilisateur :</b>
+                <span class="profile-info">{{ app.user.username }}</span>
+            </div>
+            <div class="col-lg-12 profile-line">
+                <b>Email :</b>
+                <span class="profile-info">{{ app.user.email }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 profile-btn-mdp">
+                <a class="btn btn-success btn-block" href="#">Changer Mot de passe</a>
+            </div>
+            <div class="col-lg-4 profile-btn-edit">
+                <a class="btn btn-success btn-block" href="#">Editer</a>
+            </div>
+        </div>
+    </div>
+</div>

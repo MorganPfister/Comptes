@@ -1,0 +1,198 @@
+html,body,#container-main {
+    height:100%;
+}
+
+#container-main {
+    display:table;
+    width: 100%;
+    padding: 50px 0 0 0; /*set left/right padding according to needs*/
+    box-sizing: border-box;
+}
+
+#row-main {
+    height: 100%;
+    display: table-row;
+}
+
+#row-main .no-float {
+    display: table-cell;
+    float: none;
+}
+
+#sidenav {
+    background: #09192a;
+    position:fixed;
+    height:100%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#side-navbar {
+    background: #09192a;
+    padding: 0;
+}
+
+#header-navbar {
+    background: #09192a;
+    border-color: #09192a;
+}
+
+#sidenav-item {
+    padding: 15px;
+    font-size: 17px;
+    color: white;
+    width: 100%;
+}
+
+.navbar-header {
+    margin-left: 20px;
+}
+
+.navbar-right {
+    margin-right: 20px;
+}
+
+#navbar-right-button {
+    margin-top: 5px;
+}
+
+.half-rule {
+    margin: 0;
+    border-top: 2px solid #1d2937;
+}
+
+#sidenav-span {
+    margin-right: 10px;
+}
+
+#main-page {
+    padding-left: 40px;
+    padding-top: 15px;
+    background-color: #e6ebf3;
+    height: 100%;
+}
+
+#login-row {
+    margin:0;
+    padding:0;
+    background: url(../bundles/cdccore/css/images/background-login.jpg) no-repeat center fixed;
+    -webkit-background-size: cover;
+    background-size: cover;
+    height: 100%
+}
+
+.page-header-half-rule {
+    margin-top: 10px;
+    border-top: 2px solid #c7d1dd;
+}
+
+.page-header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form-loggin {
+    margin-top: 80px;
+}
+
+.loggin-top {
+    background-color: #09192a;
+    border-top-left-radius: 8px 8px;
+    border-top-right-radius: 8px 8px;
+    padding: 30px;
+    margin-bottom: 0;
+    color: white;
+}
+
+.loggin-bot {
+    margin-top: 0;
+    padding: 20px;
+    background-color: #c2dbf0;
+    border-bottom-left-radius: 8px 8px;
+    border-bottom-right-radius: 8px 8px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+#_submit {
+    margin-bottom: 5px;
+}
+
+.bg-profile {
+    background-color: #337ab7 !important;
+    padding: 15px 10px 10px 20px;
+    color: white;
+    font-size: 20px;
+}
+
+.profile {
+    background-color: white;
+    padding: 10px;
+}
+
+.profile-line {
+    margin-bottom: 10px;
+}
+
+.profile-btn-mdp {
+    padding-right: 5px;
+}
+
+.profile-btn-edit {
+    padding-left: 5px;
+}
+
+.profile-info {
+    margin-left: 5px;
+}
+
+.notification-ok {
+    background-color: #dff0d8 !important;
+    border-radius: 0 !important;
+}
+
+.action {
+    padding: 5px 10px 5px 10px;
+    margin-right: 5px;
+    color: white;
+}
+
+.bg-blue {
+    background-color: #0073b7;
+}
+
+.bg-red {
+    background-color: #f56854;
+}
+
+.icon-categorie {
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+.indent {
+    margin-left: 25px;
+}
+
+.child-categorie {
+    margin-right: 10px;
+}
+
+.categorie-parent {
+    font-weight: bold;
+}
+
+#delete-categorie {
+    font-size:22px;
+    color:#f56854;
+    visibility: hidden;
+}
+
+.bg-transfert {
+    background-color: #337ab7 !important;
+    padding: 15px 10px 10px 20px;
+    color: white;
+    font-size: 20px;
+}

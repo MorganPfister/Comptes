@@ -1,0 +1,29 @@
+<div class="row" id="login-row">
+    <div class="col-lg-4 col-lg-offset-4 form-loggin">
+        <h2 class="loggin-top">
+            Se connecter
+            <span id="loggin-key" class="pull-right"><i class="fa fa-key"></i></span>
+        </h2>
+        <div class="loggin-bot">
+            <form action="{{ path("fos_user_security_check") }}" method="post">
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
+                    <input type="text" id="username" name="_username" required="required" autocomplete="username" placeholder="Nom d'utilisateur" class="form-control" />
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
+                    <input type="password" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block" id="_submit" name="_submit" >Se connecter</button>
+            </form>
+            <div class="text-center">
+                <a href="{{ path('fos_user_registration_register') }}">Pas encore de compte ?</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

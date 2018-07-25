@@ -1,0 +1,74 @@
+<?php
+
+namespace CDC\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="Tranfert")
+ * @ORM\Entity(repositoryClass="CDC\CoreBundle\Repository\TransfertRepository")
+ */
+class Transfert {
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $date;
+
+    /**
+     * @ORM\Column(type="decimal")
+     */
+    protected $montant;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $titre;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $commentaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CDC\CoreBundle\Entity\Compte")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $compte;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CDC\CoreBundle\Entity\Compte")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $last_compte;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CDC\CoreBundle\Entity\Categorie")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $categorie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CDC\CoreBundle\Entity\MoyenTransfert")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $moyen;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CDC\CoreBundle\Entity\TypeTransfert")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $type;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $dateadd;
+}

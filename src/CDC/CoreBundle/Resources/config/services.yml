@@ -1,0 +1,4 @@
+services:
+#    cdc_core.example:
+#        class: CDC\CoreBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

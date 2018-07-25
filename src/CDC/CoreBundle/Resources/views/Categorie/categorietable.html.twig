@@ -1,0 +1,106 @@
+<div class="grid">
+    <div class="grid-header bg-profile">
+        <i class="fa fa-indent"></i>
+        <span class="grid-title">Vos catégories</span>
+    </div>
+    <div class="grid-body profile">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="list-group list-categorie">
+                    {% for categorie in categorie_a %}
+                        <div class="list-group-item categorie-item" data-categorie-id="{{ categorie.id }}">
+                            <i class="child-categorie-chevron fa fa-angle-right" data-toggle="collapse" data-target="#child-categorie-{{ categorie.id }}" style="visibility:{% if categorie.children|length > 0 %}visible{% else %}hidden{% endif %}"></i>
+                            <i class="icon-categorie {{ categorie.icon }}" style="color:{{ categorie.color }}"></i>
+                            <span class="categorie-parent">{{ categorie.titre }}</span>
+                            <i id="delete-categorie" data-categorie-id="{{ categorie.id }}" class="pull-right fa fa-minus-circle btn-delete-categorie-{{ categorie.id }}" data-trigger="modal" data-target="#modalDeleteCategorie"></i>
+                        </div>
+                        <div id="child-categorie-{{ categorie.id }}" class="collapse">
+                            {% for categorie_child in categorie.children %}
+                                <div class="indent list-group-item categorie-item" data-categorie-id="{{ categorie_child.id }}">
+                                    <i class="icon-categorie {{ categorie_child.icon }}" style="color:{{ categorie_child.color }}"></i>
+                                    <span class="categorie-enfant">{{ categorie_child.titre }}</span>
+                                    <i id="delete-categorie" data-categorie-id="{{ categorie_child.id }}" class="pull-right fa fa-minus-circle btn-delete-categorie-{{ categorie_child.id }}" data-trigger="modal" data-target="#modalDeleteCategorie"></i>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-success btn-block" id="modal-add-categorie" data-trigger="modal" data-target="#modalAddCategorie">Ajouter une catégorie</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALS BEGIN -->
+<div class="nifty-modal blur" id="modalAddCategorie">
+    <div class="md-content">
+        <div class="md-title">
+            <h3>Ajouter une catégorie</h3>
+        </div>
+        <div class="md-body">
+            <form id="form-add-categorie" action="{{ path('cdc_core_addcategorie', {'id' : app.user.id }) }}" method="post">
+
+                <input type="hidden" value="{{ app.user.id }}" name="_id" />
+
+                <div class="input-group">
+                    <span class="input-group-addon">Catégorie parente</span>
+                    <select id="nom" name="_parent" required="required" class="form-control">
+                        <option value="-1" selected></option>
+                        {% for categorie in categorie_a %}
+                            <option value="{{ categorie.id }}">{{ categorie.titre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-align-left"></i></span>
+                    <input type="text" id="nom" name="_nom" required="required" placeholder="Nom de la catégorie" class="form-control" />
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+                    <input id="icon" name="_icone" required="required" placeholder="Choisir une icone pour votre catégorie" class="form-control icon-picker" autocomplete="off"/>
+                </div>
+
+                <div class="input-group colorpicker-component">
+                    <span class="input-group-addon"><i></i></span>
+                    <input type="text" name="_color" value="#00AABB" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="btn-add-categorie" name="_submit" >Ajouter</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="nifty-modal blur" id="modalDeleteCategorie" data-categorie-id="">
+    <div class="md-content">
+        <div class="md-title">
+            <h3>Supprimer cette catégorie ?</h3>
+        </div>
+        <div class="md-body">
+            <div class="row">
+                <div class="alert alert-danger">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <b>Attention</b>, supprimer une catégorie qui possède des enfants les supprimera également
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-lg-offset-3">
+                    <div class="btn btn-block btn-success btn-delete-categorie-ok">Continuer</div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="btn btn-block btn-danger btn-delete-categorie-retour">Retour</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODALS END -->
+
+<!-- MODALS OVERLAY -->
+<div class="md-overlay"></div>
