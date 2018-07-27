@@ -44,12 +44,6 @@ class Transfert {
     protected $compte;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CDC\CoreBundle\Entity\Compte")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    protected $last_compte;
-
-    /**
      * @ORM\ManyToOne(targetEntity="CDC\CoreBundle\Entity\Categorie")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -71,6 +65,11 @@ class Transfert {
      * @ORM\Column(type="datetime")
      */
     protected $dateadd;
+
+    public function __construct() {
+        $this->dateadd = new \DateTime();
+    }
+
 
     /**
      * Get id

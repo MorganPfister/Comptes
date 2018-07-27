@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="CDC\CoreBundle\Repository\TypeTransfertRepository")
  */
 class TypeTransfert {
+    const RECETTE_ID = 1;
+    const DEPENSE_ID = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

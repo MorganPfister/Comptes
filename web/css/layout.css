@@ -196,3 +196,12 @@ html,body,#container-main {
     color: white;
     font-size: 20px;
 }
+
+.parent_categorie {
+    font-weight: bold;
+    font-style: italic;
+}
+
+#table-transfert_paginate>ul>li{
+    padding: 0;
+}

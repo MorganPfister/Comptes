@@ -4,7 +4,10 @@
 cdc_core_dashboardpage:
     path: /
     defaults:
-        _controller: CDCCoreBundle:Dashboard:index
+        _controller: CDCCoreBundle:Dashboard:overview
+        format: html
+    requirements:
+        format: html|xml
 
 #############################
 #         TRANSFERT         #
@@ -19,6 +22,52 @@ cdc_core_transfertpage:
     options:
         expose: true
 
+cdc_core_addtransfert:
+    path: /transfert/addtransfert
+    defaults:
+        _controller: CDCCoreBundle:Transfert:addTransfert
+        format: html
+    requirements:
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_deletetransfert:
+    path: /transfert/deletetransfert/{id}
+    defaults:
+        _controller: CDCCoreBundle:Transfert:deleteTransfert
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_edittransfert:
+    path: /transfert/edittransfert/{id}
+    defaults:
+        _controller: CDCCoreBundle:Transfert:editTransfert
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_retrievetransfert:
+    path: /transfert/retrievetransfert/{id}
+    defaults:
+        _controller: CDCCoreBundle:Transfert:retrieveTransfert
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true
+
+#############################
+#         PROFILE           #
+#############################
 cdc_core_profilepage:
     path: /profile/overview
     defaults:
@@ -64,7 +113,7 @@ cdc_core_deletecompte:
 cdc_core_editcompte:
     path: /compte/editcompte/{id}
     defaults:
-        _controller: CDCCoreBundle:COmpte:editCompte
+        _controller: CDCCoreBundle:Compte:editCompte
         format: html
     requirements:
         id: \d+
@@ -106,3 +155,14 @@ cdc_core_deletecategorie:
         format: html|xml
     options:
         expose: true
+
+#############################
+#         BUDGET            #
+#############################
+cdc_core_budgetpage:
+    path: /budget/overview
+    defaults:
+        _controller: CDCCoreBundle:Budget:overview
+        format: html
+    requirements:
+        format: html|xml

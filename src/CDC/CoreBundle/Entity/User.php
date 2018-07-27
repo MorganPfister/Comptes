@@ -17,6 +17,14 @@ class User extends BaseUser {
      */
     protected $id;
 
+    public function getLastcompte(){
+        return $this->lastcompte;
+    }
+
+    public function setLastcompte($compte){
+        $this->lastcompte = $compte;
+        return $this;
+    }
 
     public function __construct() {
         parent::__construct();
