@@ -143,3 +143,7 @@ assetic:
             inputs:
                 - "%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff"
             output: "fonts/glyphicons-halflings-regular.woff"
+
+cmen_google_charts:
+    version: "current"
+    language: "fr"

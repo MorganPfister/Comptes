@@ -2,22 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6300aad0-98e5-4c99-95ba-af784956d4c2" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Comptes.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Comptes.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/AppKernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/DashboardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/TransfertController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/TransfertController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/Transfert.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/Transfert.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/TypeTransfert.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/TypeTransfert.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/config/routing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/config/routing.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Categorie/categorietable.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Categorie/categorietable.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Categorie/overview.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Categorie/overview.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Compte/comptetable.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Compte/comptetable.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Compte/overview.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Compte/overview.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/layout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/layout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/sidenavbar.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/sidenavbar.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/transferttable.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/transferttable.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/css/layout.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/css/layout.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/js/transfert.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/transfert.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/overview.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/overview.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,29 +25,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="overview.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Compte/overview.html.twig">
+      <file leaf-file-name="transferttable.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/transferttable.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+            <state>
+              <caret selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sidenavbar.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/sidenavbar.html.twig">
+      <file leaf-file-name="CompteController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/CompteController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="75" selection-start-line="17" selection-start-column="75" selection-end-line="17" selection-end-column="75" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BudgetController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/BudgetController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+            <state relative-caret-position="306">
+              <caret line="18" column="11" selection-start-line="12" selection-start-column="8" selection-end-line="18" selection-end-column="11" />
+              <folding>
+                <element signature="e#45#102#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -61,20 +49,8 @@
       <file leaf-file-name="CategorieController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/CategorieController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="11" selection-start-line="22" selection-start-column="8" selection-end-line="24" selection-end-column="11" />
-              <folding>
-                <element signature="e#45#81#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routing.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/config/routing.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="775">
-              <caret line="164" column="50" selection-start-line="164" selection-start-column="50" selection-end-line="164" selection-end-column="50" />
+            <state relative-caret-position="153">
+              <caret line="9" column="16" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -82,40 +58,61 @@
       <file leaf-file-name="overview.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Categorie/overview.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+            <state relative-caret-position="289">
+              <caret line="17" column="10" selection-start-line="13" selection-start-column="4" selection-end-line="17" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="overview.html.twig" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Budget/overview.html.twig">
+      <file leaf-file-name="DashboardController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/DashboardController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+            <state relative-caret-position="758">
+              <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
+              <folding>
+                <element signature="e#45#78#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="budget.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/js/budget.js">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="overview.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/overview.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+            <state relative-caret-position="238">
+              <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dashboard.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/js/dashboard.js">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="overview.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/overview.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+            <state relative-caret-position="306">
+              <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="comptelevel.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/comptelevel.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="31" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/layout.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="70" selection-start-line="6" selection-start-column="70" selection-end-line="6" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -149,6 +146,9 @@
       <find>COmpte</find>
       <find>CO</find>
       <find>modalEditC</find>
+      <find>compte</find>
+      <find>Compte</find>
+      <find>compte_</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -160,10 +160,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/navbar.html.twig" />
-        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Form/CompteType.php" />
-        <option value="$PROJECT_DIR$/app/AppKernel.php" />
-        <option value="$PROJECT_DIR$/app/config/routing.yml" />
         <option value="$PROJECT_DIR$/web/js/fos_js_routes.json" />
         <option value="$PROJECT_DIR$/app/Resources/views/error_layout.html.twig" />
         <option value="$PROJECT_DIR$/web/js/jquery.gritter.js" />
@@ -183,15 +179,12 @@
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/ProfileController.php" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/overview.html.twig" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/profilepage.html.twig" />
-        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/overview.html.twig" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/Categorie.php" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/CategorieController.php" />
         <option value="$PROJECT_DIR$/web/js/categorie.js" />
-        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/DashboardController.php" />
         <option value="$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle/Controller/SecurityController.php" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Repository/TransfertRepository.php" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Repository/MoyenTransfertRepository.php" />
-        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/layout.html.twig" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/MoyenTransfert.php" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Repository/TypeTransfertRepository.php" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Entity/TypeTransfert.php" />
@@ -211,6 +204,13 @@
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/BudgetController.php" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/config/routing.yml" />
         <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Budget/overview.html.twig" />
+        <option value="$PROJECT_DIR$/app/AppKernel.php" />
+        <option value="$PROJECT_DIR$/app/config/config.yml" />
+        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/comptelevel.html.twig" />
+        <option value="$PROJECT_DIR$/web/js/dashboard.js" />
+        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/overview.html.twig" />
+        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/layout.html.twig" />
+        <option value="$PROJECT_DIR$/src/CDC/CoreBundle/Controller/DashboardController.php" />
       </list>
     </option>
   </component>
@@ -271,6 +271,7 @@
       <path value="$PROJECT_DIR$/vendor/components/jquery" />
       <path value="$PROJECT_DIR$/vendor/willdurand/jsonp-callback-validator" />
       <path value="$PROJECT_DIR$/vendor/friendsofsymfony/jsrouting-bundle" />
+      <path value="$PROJECT_DIR$/vendor/cmen/google-charts-bundle" />
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
@@ -299,6 +300,12 @@
               <item name="Comptes" type="b2602c69:ProjectViewProjectNode" />
               <item name="Comptes" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Comptes" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Comptes" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Comptes" type="b2602c69:ProjectViewProjectNode" />
@@ -476,30 +483,7 @@
               <item name="Comptes" type="b2602c69:ProjectViewProjectNode" />
               <item name="Comptes" type="462c0819:PsiDirectoryNode" />
               <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="friendsofsymfony" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Comptes" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Comptes" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="friendsofsymfony" type="462c0819:PsiDirectoryNode" />
-              <item name="user-bundle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Comptes" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Comptes" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="friendsofsymfony" type="462c0819:PsiDirectoryNode" />
-              <item name="user-bundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Comptes" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Comptes" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="friendsofsymfony" type="462c0819:PsiDirectoryNode" />
-              <item name="user-bundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="cmen" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Comptes" type="b2602c69:ProjectViewProjectNode" />
@@ -576,12 +560,12 @@
       <workItem from="1532450617133" duration="1459000" />
       <workItem from="1532538827923" duration="12215000" />
       <workItem from="1532589707175" duration="24007000" />
-      <workItem from="1532682096173" duration="8880000" />
+      <workItem from="1532682096173" duration="13923000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="193440000" />
+    <option name="totallyTimeSpent" value="198483000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -615,26 +599,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/js/layout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="141" selection-start-line="5" selection-start-column="141" selection-end-line="5" selection-end-column="141" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle/Resources/config/routing/change_password.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/FOSUserBundle/views/layout.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/FOSUserBundle/views/Security/logout.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle/Form/Type/ChangePasswordFormType.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-313" />
@@ -705,13 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/DashboardController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="56" selection-start-line="8" selection-start-column="56" selection-end-line="8" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Entity/Categorie.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3229">
@@ -730,13 +687,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="40" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/layout.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="724">
-          <caret line="48" column="62" selection-start-line="48" selection-start-column="62" selection-end-line="48" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -806,16 +756,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/CompteController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="106" column="29" selection-start-line="106" selection-start-column="29" selection-end-line="106" selection-end-column="29" />
-          <folding>
-            <element signature="e#45#102#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/TransfertController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="673">
@@ -859,13 +799,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/transferttable.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="42" selection-start-line="1" selection-start-column="42" selection-end-line="1" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/sidenavbar.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -876,41 +809,10 @@
     <entry file="file://$PROJECT_DIR$/web/js/budget.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/overview.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/overview.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Compte/overview.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Categorie/overview.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/CategorieController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="11" selection-start-line="22" selection-start-column="8" selection-end-line="24" selection-end-column="11" />
-          <folding>
-            <element signature="e#45#81#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -932,6 +834,92 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="65" selection-start-line="22" selection-start-column="65" selection-end-line="22" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="860">
+          <caret line="148" column="18" selection-start-line="148" selection-start-column="18" selection-end-line="148" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/CategorieController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="16" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/CompteController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="11" selection-start-line="12" selection-start-column="8" selection-end-line="18" selection-end-column="11" />
+          <folding>
+            <element signature="e#45#102#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Categorie/overview.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="10" selection-start-line="13" selection-start-column="4" selection-end-line="17" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/transferttable.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Transfert/overview.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/js/dashboard.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/comptelevel.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="31" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Dashboard/overview.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Resources/views/Core/layout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="70" selection-start-line="6" selection-start-column="70" selection-end-line="6" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CDC/CoreBundle/Controller/DashboardController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="758">
+          <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
+          <folding>
+            <element signature="e#45#78#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

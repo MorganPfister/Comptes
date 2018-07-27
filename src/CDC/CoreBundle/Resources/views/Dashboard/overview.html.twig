@@ -10,4 +10,13 @@
             <hr class="page-header-half-rule" />
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            {% include 'CDCCoreBundle:Dashboard:comptelevel.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+{% block style %}
+    <script src="{{ asset('js/dashboard.js') }}"></script>
 {% endblock %}
