@@ -9,7 +9,9 @@ class CategorieRepository extends EntityRepository {
         $qb = $this->createQueryBuilder('u');
         $qb->where('u.parent IS NULL')
             ->andWhere('u.user = :user')
-            ->setParameter('user', $user);
+                ->setParameter('user', $user)
+            ->andWhere('u.actif = :actif')
+                ->setParameter('actif', true);
 
         return $qb->getQuery()
             ->getResult();

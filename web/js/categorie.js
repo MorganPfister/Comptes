@@ -31,7 +31,7 @@ $list_categorie.on("mouseleave", "#delete-categorie", function(){
 
 $list_categorie.on("click", "#delete-categorie", function(){
     $this = $(this);
-    $("#modalDeleteCategorie").data('categorie-id', $this.data('categorie-id'));
+    $("#modalDeleteCategorie").attr('data-categorie-id', $this.attr('data-categorie-id'));
 });
 
 $(".btn-delete-categorie-retour").on("click", function(){
@@ -39,14 +39,16 @@ $(".btn-delete-categorie-retour").on("click", function(){
 });
 
 $(".btn-delete-categorie-ok").on("click", function(){
-    $id_categorie = $("#modalDeleteCategorie").data('categorie-id');
+    $id_categorie = $("#modalDeleteCategorie").attr('data-categorie-id');
     $.ajax({
         url: Routing.generate("cdc_core_deletecategorie", {id: $id_categorie}),
         type: "post",
         data: {'id': $id_categorie},
         success: function(data){
-            $("#modalDeleteCategorie").nifty("hide");
-            $(location).attr('href', Routing.generate("cdc_core_categoriepage"))
+            if (data['success']) {
+                $("#modalDeleteCategorie").nifty("hide");
+                $(location).attr('href', Routing.generate("cdc_core_categoriepage"))
+            }
         }
     });
 });

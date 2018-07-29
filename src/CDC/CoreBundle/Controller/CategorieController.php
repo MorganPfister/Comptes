@@ -2,11 +2,16 @@
 
 namespace CDC\CoreBundle\Controller;
 
+use CDC\CoreBundle\Entity\BudgetInstance;
+use CDC\CoreBundle\Entity\BudgetModele;
 use CDC\CoreBundle\Entity\Transfert;
+use CDC\CoreBundle\Repository\BudgetInstanceRepository;
+use CDC\CoreBundle\Repository\BudgetModeleRepository;
 use CDC\CoreBundle\Repository\TransfertRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CDC\CoreBundle\Entity\Categorie;
 use CDC\CoreBundle\Repository\CategorieRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class CategorieController extends Controller {
@@ -19,6 +24,9 @@ class CategorieController extends Controller {
             ->getManager()
             ->getRepository('CDCCoreBundle:Categorie');
         $categorie_a = $repositoryCategorie->getParentCategorie_a($user);
+
+        //var_dump(sizeof($categorie_a[0]->getChildren()));
+        //exit();
 
         return $this->render('CDCCoreBundle:Categorie:overview.html.twig', array(
             'categorie_a' => $categorie_a
@@ -77,22 +85,56 @@ class CategorieController extends Controller {
 
                 /** @var Categorie[] $categorie_child_a */
                 $categorie_child_a = $categorie->getChildren();
+                $categorie_parent = $categorie->getParent();
 
                 $em = $this->getDoctrine()->getManager();
                 if (sizeof($categorie_child_a) > 0){
                     for($i=0; $i < sizeof($categorie_child_a); $i++){
                         $this->updateTransfertCategorieToUnknown($categorie_child_a[$i]);
 
-                        $em->remove($categorie_child_a[$i]);
+                        $categorie_child_a[$i]->setActif(false);
+                        $categorie->removeChild($categorie_child_a[$i]);
+                        $em->persist($categorie_child_a[$i]);
                         $em->flush();
                     }
                 }
-                $em->remove($categorie);
+                else if ($categorie_parent) {
+                    $categorie_parent->removeChild($categorie);
+                    $categorie->setParent();
+                    $em->persist($categorie_parent);
+                    $em->flush();
+                }
+
+                // Désactiver le budgetmodele lié à la catégorie
+                /** @var BudgetModeleRepository $repository_budgetmodele */
+                $repository_budgetmodele = $this
+                    ->getDoctrine()
+                    ->getManager()
+                    ->getRepository('CDCCoreBundle:BudgetModele');
+                /** @var BudgetModele $budgetmodele */
+                $budgetmodele = $repository_budgetmodele->findOneBy([
+                    'categorie' => $categorie
+                ]);
+
+                if ($budgetmodele){
+                    $budgetmodele->setActif(false);
+
+                    $em->persist($budgetmodele);
+                    $em->flush();
+                }
+
+                $categorie->setActif(false);
+
+                $em->persist($categorie);
                 $em->flush();
             }
-
-            return $this->redirectToRoute('cdc_core_categoriepage', ['cat' => $categorie_child_a]);
         }
+        $response = [
+            'success' => true
+        ];
+
+        $response = new JSONresponse($response);
+        return $response;
     }
 
     public function updateTransfertCategorieToUnknown($categorie){

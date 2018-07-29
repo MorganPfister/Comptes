@@ -1,0 +1,35 @@
+<?php
+
+namespace CDC\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="BudgetInstance")
+ * @ORM\Entity(repositoryClass="CDC\CoreBundle\Repository\BudgetInstanceRepository")
+ */
+class BudgetInstance {
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BudgetModele")
+     * @ORM\JoinColumn(name="budgetmodele_id", referencedColumnName="id")
+     **/
+    protected $budgetmodele;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $datestart;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $dateend;
+}

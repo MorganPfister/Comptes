@@ -166,3 +166,36 @@ cdc_core_budgetpage:
         format: html
     requirements:
         format: html|xml
+
+cdc_core_addbudgetmodele:
+    path: /budget/addbudgetmodele/id
+    defaults:
+        _controller: CDCCoreBundle:Budget:addBudgetModele
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_editbudgetmodele:
+    path: /budget/editbudgetmodele/id
+    defaults:
+        _controller: CDCCoreBundle:Budget:editBudgetModele
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true
+
+cdc_core_deletebudgetmodele:
+    path: /budget/deletebudgetmodele/id
+    defaults:
+        _controller: CDCCoreBundle:Budget:deleteBudgetModele
+        format: html
+    requirements:
+        id: \d+
+        format: html|xml
+    options:
+        expose: true

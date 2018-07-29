@@ -1,0 +1,95 @@
+<div class="grid">
+    <div class="grid-header bg-profile">
+        <span class="grid-title">Vos budgets</span>
+    </div>
+    <div class="grid-body profile">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="list-group list-categorie">
+                    {% for categorie in categorie_a %}
+                        <div class="list-group-item categorie-item" data-categorie-id="{{ categorie.id }}">
+                            <i class="child-categorie-chevron fa fa-angle-down" data-toggle="collapse" data-target="#child-categorie-{{ categorie.id }}" style="visibility:{% if categorie.children|length > 0 %}visible{% else %}hidden{% endif %}"></i>
+                            <i class="icon-categorie {{ categorie.icon }}" style="color:{{ categorie.color }}"></i>
+                            <span class="categorie categorie-parent">{{ categorie.titre }}</span>
+                            {% if categorie.budgetmodele|length > 0 %}
+                                <i id="delete-budget" data-budgetmodele-id="{{ categorie.budgetmodele.id }}" class="pull-right fa fa-minus-circle btn-delete-budget-{{ categorie.budgetmodele.id }}"></i>
+                                <span class="categorie-budget-seuil badge" data-budgetmodele-id="{{ categorie.budgetmodele.id }}" data-budget-seuil="{{ categorie.budgetmodele.seuil }}">{{ categorie.budgetmodele.seuil }}€ / mois</span>
+                            {% else %}
+                                <i id="add-budget" data-categorie-id="{{ categorie.id }}" class="pull-right fa fa-plus-circle btn-add-budget-{{ categorie.id }}"></i>
+                            {% endif %}
+                        </div>
+                        <div id="child-categorie-{{ categorie.id }}" class="collapse in">
+                            {% for categorie_child in categorie.children %}
+                                <div class="indent list-group-item categorie-item" data-categorie-id="{{ categorie_child.id }}">
+                                    <i class="icon-categorie {{ categorie_child.icon }}" style="color:{{ categorie_child.color }}"></i>
+                                    <span class="categorie categorie-enfant">{{ categorie_child.titre }}</span>
+                                    {% if categorie_child.budgetmodele|length > 0 %}
+                                        <i id="delete-budget" data-budgetmodele-id="{{ categorie_child.budgetmodele.id }}" class="pull-right fa fa-minus-circle btn-delete-budget-{{ categorie_child.budgetmodele.id }}"></i>
+                                        <span class="categorie-budget-seuil badge" data-budgetmodele-id="{{ categorie_child.budgetmodele.id }}" data-budget-seuil="{{ categorie_child.budgetmodele.seuil }}">{{ categorie_child.budgetmodele.seuil }}€ / mois</span>
+                                    {% else %}
+                                        <i id="add-budget" data-categorie-id="{{ categorie_child.id }}" class="pull-right fa fa-plus-circle btn-add-budget-{{ categorie_child.id }}"></i>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALS BEGIN -->
+<div class="nifty-modal blur" id="modalAddBudget">
+    <div class="md-content">
+        <div class="md-title">
+            <h3>Ajouter un budget</h3>
+        </div>
+        <div class="md-body">
+            <form id="form-add-budget" method="post">
+
+                <div class="add-budget-categorie text-center well" style="margin-bottom: 15px;">
+                    <i class="" style="font-size:30px;margin-right:15px;"></i>
+                    <span class="add-budget-categorie-text"></span>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-coins"></i></span>
+                    <input type="number" id="seuil" name="_seuil" required="required" placeholder="Budget mensuel attribué" class="form-control" step="0.01" min="0"/>
+                    <span class="input-group-addon"><i class="fa fa-euro-sign"></i></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="btn-add-budget" name="_submit">Ajouter</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="nifty-modal blur" id="modalEditBudget">
+    <div class="md-content">
+        <div class="md-title">
+            <h3>Editer un budget</h3>
+        </div>
+        <div class="md-body">
+            <form id="form-edit-budget" method="post">
+
+                <div class="edit-budget-categorie text-center well" style="margin-bottom: 15px;">
+                    <i class="" style="font-size:30px;margin-right:15px;"></i>
+                    <span class="edit-budget-categorie-text"></span>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-coins"></i></span>
+                    <input type="number" id="seuil" name="_seuil" required="required" placeholder="Budget mensuel attribué" class="form-control" step="0.01" min="0"/>
+                    <span class="input-group-addon"><i class="fa fa-euro-sign"></i></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="btn-edit-budget" name="_submit">Editer</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- MODALS END -->
+
+<!-- MODALS OVERLAY -->
+<div class="md-overlay"></div>

@@ -79,10 +79,15 @@
                     <select id="categorie" name="_categorie" required="required" class="form-control">
                         <option value="-1" disabled selected>Catégorie de la transaction</option>
                         {% for parent_categorie in parentcategorie_a %}
-                            <option value="{{ parent_categorie.id }}" class="parent_categorie">{{ parent_categorie.titre }}</option>
-                            {% for categorie_child in parent_categorie.children %}
-                                <option value="{{ categorie_child.id }}" class="child_categorie">&nbsp;&nbsp;{{ categorie_child.titre }}</option>
-                            {% endfor %}
+                            {% if parent_categorie.children|length > 0 %}
+                                <optgroup label="{{ parent_categorie.titre }}">
+                                    {% for categorie_child in parent_categorie.children %}
+                                        <option value="{{ categorie_child.id }}" class="child_categorie">{{ categorie_child.titre }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% else %}
+                                <option value="{{ parent_categorie.id }}" class="parent_categorie">{{ parent_categorie.titre }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>
@@ -144,10 +149,15 @@
                     <select id="categorie" name="_categorie" required="required" class="form-control">
                         <option value="-1" disabled selected>Catégorie de la transaction</option>
                         {% for parent_categorie in parentcategorie_a %}
-                            <option value="{{ parent_categorie.id }}" class="parent_categorie">{{ parent_categorie.titre }}</option>
-                            {% for categorie_child in parent_categorie.children %}
-                                <option value="{{ categorie_child.id }}" class="child_categorie">&nbsp;&nbsp;{{ categorie_child.titre }}</option>
-                            {% endfor %}
+                            {% if parent_categorie.children|length > 0 %}
+                                <optgroup label="{{ parent_categorie.titre }}">
+                                    {% for categorie_child in parent_categorie.children %}
+                                        <option value="{{ categorie_child.id }}" class="child_categorie">{{ categorie_child.titre }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% else %}
+                                <option value="{{ parent_categorie.id }}" class="parent_categorie">{{ parent_categorie.titre }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>

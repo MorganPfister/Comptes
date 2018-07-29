@@ -3,6 +3,7 @@
 namespace CDC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -56,8 +57,18 @@ class Categorie {
      */
     protected $datestart;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $actif;
+
+    /** @var BudgetModele */
+    protected $budgetmodele;
+
     public function __construct() {
+        $this->children = new ArrayCollection();
         $this->datestart = new \DateTime();
+        $this->actif = true;
     }
 
     /**
@@ -143,6 +154,16 @@ class Categorie {
     }
 
     /**
+     * Get budgetmodele
+     *
+     * @return BudgetModele
+     */
+    public function getBudgetmodele()
+    {
+        return $this->budgetmodele;
+    }
+
+    /**
      * Set parent
      *
      * @param \CDC\CoreBundle\Entity\Categorie $parent
@@ -215,6 +236,19 @@ class Categorie {
     }
 
     /**
+     * Set budgetmodele
+     *
+     * @param BudgetModele $budgetmodele
+     *
+     * @return $this
+     */
+    public function setBudgetmodele(\CDC\CoreBundle\Entity\BudgetModele $budgetmodele){
+        $this->budgetmodele = $budgetmodele;
+
+        return $this;
+    }
+
+    /**
      * Get user
      *
      * @return \CDC\CoreBundle\Entity\User
@@ -246,5 +280,29 @@ class Categorie {
     public function getColor()
     {
         return $this->color;
+    }
+
+    /**
+     * Set actif
+     *
+     * @param boolean $actif
+     *
+     * @return Categorie
+     */
+    public function setActif($actif)
+    {
+        $this->actif = $actif;
+
+        return $this;
+    }
+
+    /**
+     * Get actif
+     *
+     * @return boolean
+     */
+    public function getActif()
+    {
+        return $this->actif;
     }
 }

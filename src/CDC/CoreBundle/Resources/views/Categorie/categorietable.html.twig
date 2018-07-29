@@ -8,12 +8,12 @@
                 <div class="list-group list-categorie">
                     {% for categorie in categorie_a %}
                         <div class="list-group-item categorie-item" data-categorie-id="{{ categorie.id }}">
-                            <i class="child-categorie-chevron fa fa-angle-right" data-toggle="collapse" data-target="#child-categorie-{{ categorie.id }}" style="visibility:{% if categorie.children|length > 0 %}visible{% else %}hidden{% endif %}"></i>
+                            <i class="child-categorie-chevron fa fa-angle-down" data-toggle="collapse" data-target="#child-categorie-{{ categorie.id }}" style="visibility:{% if categorie.children|length > 0 %}visible{% else %}hidden{% endif %}"></i>
                             <i class="icon-categorie {{ categorie.icon }}" style="color:{{ categorie.color }}"></i>
                             <span class="categorie-parent">{{ categorie.titre }}</span>
                             <i id="delete-categorie" data-categorie-id="{{ categorie.id }}" class="pull-right fa fa-minus-circle btn-delete-categorie-{{ categorie.id }}" data-trigger="modal" data-target="#modalDeleteCategorie"></i>
                         </div>
-                        <div id="child-categorie-{{ categorie.id }}" class="collapse">
+                        <div id="child-categorie-{{ categorie.id }}" class="collapse in">
                             {% for categorie_child in categorie.children %}
                                 <div class="indent list-group-item categorie-item" data-categorie-id="{{ categorie_child.id }}">
                                     <i class="icon-categorie {{ categorie_child.icon }}" style="color:{{ categorie_child.color }}"></i>
@@ -48,7 +48,7 @@
                 <div class="input-group">
                     <span class="input-group-addon">Catégorie parente</span>
                     <select id="nom" name="_parent" required="required" class="form-control">
-                        <option value="-1" selected></option>
+                        <option value="-1" selected>Catégorie parente</option>
                         {% for categorie in categorie_a %}
                             <option value="{{ categorie.id }}">{{ categorie.titre }}</option>
                         {% endfor %}

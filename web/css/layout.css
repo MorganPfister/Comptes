@@ -190,6 +190,18 @@ html,body,#container-main {
     visibility: hidden;
 }
 
+#add-budget {
+    font-size:22px;
+    color: #4bb73e;
+    visibility: hidden;
+}
+
+#delete-budget {
+    font-size:22px;
+    color:#f56854;
+    visibility: hidden;
+}
+
 .bg-transfert {
     background-color: #337ab7 !important;
     padding: 15px 10px 10px 20px;
@@ -197,11 +209,10 @@ html,body,#container-main {
     font-size: 20px;
 }
 
-.parent_categorie {
-    font-weight: bold;
-    font-style: italic;
-}
-
 #table-transfert_paginate>ul>li{
     padding: 0;
+}
+
+.categorie-budget-seuil {
+    margin-right: 20px;
 }
