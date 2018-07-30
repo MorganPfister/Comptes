@@ -9,6 +9,14 @@ cdc_core_dashboardpage:
     requirements:
         format: html|xml
 
+cdc_core_resumepage:
+    path: /dashboard/resume
+    defaults:
+        _controller: CDCCoreBundle:Dashboard:resume
+        format: html
+    requirements:
+        format: html|xml
+
 #############################
 #         TRANSFERT         #
 #############################

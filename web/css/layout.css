@@ -216,3 +216,14 @@ html,body,#container-main {
 .categorie-budget-seuil {
     margin-right: 20px;
 }
+
+.resume-mois-titre {
+    border: 1px solid #2e6da4;
+    border-radius: 15px;
+    height: 45px;
+    padding-top: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #3E75B5;
+    color: white;
+}

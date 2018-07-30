@@ -23,4 +23,27 @@ class TransfertRepository extends EntityRepository {
         $result = $qb->getQuery()->getResult();
         return $result;
     }
+
+    public function getSumGroupByCategorieUsingUserAndDate($user, $month, $year){
+        $query = $this->_em->createQuery('
+            SELECT IDENTITY(t.categorie), SUM(t.montant)
+            FROM CDCCoreBundle:Transfert t
+            INNER JOIN CDCCoreBundle:Compte c 
+              WITH t.compte = c
+            INNER JOIN CDCCoreBundle:Categorie ca
+              WITH t.categorie = ca
+            WHERE ca.actif = true
+              AND MONTH(t.date) = ?1
+              AND YEAR(t.date) = ?2
+              AND c.user = ?3
+              AND t.montant < 0
+            GROUP BY t.categorie
+        ');
+        $query->setParameter(1, $month)
+            ->setParameter(2, $year)
+            ->setParameter(3, $user);
+
+        $result = $query->getResult();
+        return $result;
+    }
 }
