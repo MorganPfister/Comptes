@@ -51,7 +51,7 @@ function buildCompteText(data, num){
 $("#form-edit-compte").submit(function(event){
     event.preventDefault();
     $data = $("#form-edit-compte").serializeArray();
-    $id = $(this).data("id");
+    $id = $(this).attr("data-id");
     $data.push({'id':$id});
     $.ajax({
         url: Routing.generate("cdc_core_editcompte", {id: $id}),
@@ -110,13 +110,13 @@ $tab_compte.on('click',"a#modal-edit-compte.edit-compte", function() {
     }
     $this = $(this);
     $tr = $this.closest("tr");
-    $id = $tr.data("id");
+    $id = $tr.attr("data-id");
     $titulaire = $tr.find("td:nth-child(2)").text();
     $nom = $tr.find("td:nth-child(3)").text();
     $banque = $tr.find("td:nth-child(4)").text();
     $solde = $tr.find("td:nth-child(5)").text();
     $form = $('#form-edit-compte');
-    $form.data("id", $id);
+    $form.attr("data-id", $id);
     $form.find("input#titulaire.form-control").val($titulaire);
     $form.find("input#nom.form-control").val($nom);
     $form.find("input#banque.form-control").val($banque);
@@ -126,7 +126,7 @@ $tab_compte.on('click',"a#modal-edit-compte.edit-compte", function() {
 $tab_compte.on('click', ".delete-compte", function(event){
     event.preventDefault();
     $this = $(this);
-    $id_compte = $this.closest("tr").data("id");
+    $id_compte = $this.closest("tr").attr("data-id");
     $.ajax({
         url: Routing.generate("cdc_core_deletecompte", {id: $id_compte}),
         type: "post",
