@@ -77,12 +77,13 @@ $(document).ready(function() {
 
     $("#modal-add-transfert").click(function() {
         $('#form-add-transfert').find("input").val("");
+        $('#form-add-transfert').find("textarea").val("");
         transfert_datepicker.datepicker("setDate", 'now');
     });
 
     $transfert_table.on('click', '.edit-transfert', function(){
         event.preventDefault();
-        $transfert_id = $(this).data('transfert-id');
+        $transfert_id = $(this).attr('data-transfert-id');
         $.ajax({
             url: Routing.generate("cdc_core_retrievetransfert", {id: $transfert_id}),
             type: "post",
@@ -96,7 +97,7 @@ $(document).ready(function() {
                     $modal_edit_transfert.find('select[id=categorie]').val(data['Transfert']['categorie']);
                     transfert_datepicker.datepicker("setDate", data['Transfert']['date']);
                     $modal_edit_transfert.find('select[id=moyentransfert]').val(data['Transfert']['moyentransfert']);
-                    $modal_edit_transfert.find('input[id=description]').val(data['Transfert']['description']);
+                    $modal_edit_transfert.find('textarea[id=description]').val(data['Transfert']['description']);
                     $modal_edit_transfert.find('button[id=btn-edit_transfert]').attr('data-transfert-id', $transfert_id);
                     $modal_edit_transfert.nifty('show');
                 }
@@ -106,25 +107,31 @@ $(document).ready(function() {
 
     $( "#form-edit-transfert" ).submit(function( event ) {
         event.preventDefault();
-        $transfert_id = $modal_edit_transfert.find('button[id=btn-edit_transfert]').data('transfert-id');
+        $transfert_id = $modal_edit_transfert.find('button[id=btn-edit_transfert]').attr('data-transfert-id');
         $data = $("#form-edit-transfert :input").serializeArray();
+        console.log($data, $transfert_id);
         $.ajax({
             url: Routing.generate("cdc_core_edittransfert", {id: $transfert_id}),
             type: "post",
             data: $data,
             dataType: 'json',
             success: function(data){
+                console.log(data);
                 if (data['success'] === true){
                     $("#modalEditTransfert").nifty("hide");
                     $row = transfert_table.row($transfert_table.find('tr[data-transfert-id=' + data['Transfert']['id'] + ']'));
+                    console.log($row);
                     $row_node = $($row.node());
+                    console.log($row_node);
                     $row.data([ '', data['Transfert']['titre'], data['Compte']['nom'], data['Transfert']['montant'], '', data['Transfert']['date'], data['Compte']['titulaire'], data['Compte']['banque'], data['MoyenTransfert']['description'], data['Transfert']['commentaire'], data['Transfert']['id'] ]);
-                    if (data['Transfert']['montant'] >= 0 && $row_node.hasClass('danger')){
+                    if (data['Transfert']['montant'] >= 0){
                         $row_node.removeClass('danger');
+                        $row_node.removeClass('info');
                         $row_node.addClass('info');
                     }
-                    else if (data['Transfert']['montant'] < 0 && $row_node.hasClass('info')) {
+                    else if (data['Transfert']['montant'] < 0) {
                         $row_node.removeClass('info');
+                        $row_node.removeClass('danger');
                         $row_node.addClass('danger');
                     }
                     $row_node.find('td').eq(0).html('<i class="fa fa-angle-down transfert-details-chevron"></i>');
@@ -136,7 +143,7 @@ $(document).ready(function() {
 
     $transfert_table.on('click', '.delete-transfert', function(){
         event.preventDefault();
-        $transfert_id = $(this).data('transfert-id');
+        $transfert_id = $(this).attr('data-transfert-id');
         $.ajax({
             url: Routing.generate("cdc_core_deletetransfert", {id: $transfert_id}),
             type: "post",

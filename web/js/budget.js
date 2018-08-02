@@ -58,7 +58,7 @@ $(document).ready(function() {
         $add_budget_categorie.find('i').attr('style', $add_budget_categorie.find('i').attr('style') + $icon_color);
         $add_budget_categorie.find('span').append($categorie);
 
-        $modal_add_budget.find('button[id=btn-add-budget]').attr('data-categorie-id', $this.data('categorie-id'));
+        $modal_add_budget.find('button[id=btn-add-budget]').attr('data-categorie-id', $this.attr('data-categorie-id'));
 
         $('#form-add-budget > .alert').remove();
         $('#form-add-budget').find("input").val("");
@@ -99,7 +99,7 @@ $(document).ready(function() {
     $list_categorie.on('click', '.categorie-budget-seuil', function(){
         $this = $(this);
         $budgetmodele_id = $this.attr('data-budgetmodele-id');
-        $modal_edit_budget.find('input[id=seuil]').val($this.data('budget-seuil'));
+        $modal_edit_budget.find('input[id=seuil]').val($this.attr('data-budget-seuil'));
 
         $edit_budget_categorie = $('.edit-budget-categorie');
         $edit_budget_categorie.find('i').removeClass();

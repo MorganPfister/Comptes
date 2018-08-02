@@ -50,35 +50,48 @@ class DashboardController extends Controller {
         $return_array['year'] = $year;
 
         // Récupérer les dépenses par catégories (parente)
-        /** @var CategorieRepository $repository_categorie */
-        $repository_categorie = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('CDCCoreBundle:Categorie');
-
         /** @var TransfertRepository $repository_transfert */
         $repository_transfert = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('CDCCoreBundle:Transfert');
-        $sum_by_categorie_a = $repository_transfert->getSumGroupByCategorieUsingUserAndDate($user, $month, $year);
+
+        /** @var CategorieRepository $repository_categorie */
+        $repository_categorie = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CDCCoreBundle:Categorie');
+        /** @var Categorie[] $parent_categorie_a */
+        $parent_categorie_a = $repository_categorie->getParentCategorie_a($user);
 
         $pieChart = new PieChart();
         $pieSlice_a = [];
         $pie_chart_data = [
             ['Categorie', 'Somme']
         ];
-        for ($i=0; $i<sizeof($sum_by_categorie_a);$i++){
-            /** @var Categorie $categorie */
-            $categorie = $repository_categorie->find(intval($sum_by_categorie_a[$i][1]));
-            $sum = $sum_by_categorie_a[$i][2];
-            array_push($pie_chart_data, [$categorie->getTitre(), abs(intval($sum))]);
+        for ($i=0; $i<sizeof($parent_categorie_a); $i++){
+            $sum = 0;
+            $children_categorie_a = $parent_categorie_a[$i]->getChildren();
+            for($j = 0; $j < sizeof($children_categorie_a);$j++){
+                $categorie = $children_categorie_a[$j];
+                $sum_for_categorie = $repository_transfert->getSumUsingCategorieAndDate($categorie, $month, $year);
+                if ($sum_for_categorie){
+                    $sum += floatval($sum_for_categorie);
+                }
+            }
+            $sum_for_categorie = $repository_transfert->getSumUsingCategorieAndDate($parent_categorie_a[$i], $month, $year);
+            if ($sum_for_categorie){
+                $sum += floatval($sum_for_categorie);
+            }
+
+            array_push($pie_chart_data, [$parent_categorie_a[$i]->getTitre(), abs(intval($sum))]);
             $pieSlice = new PieSlice();
-            $pieSlice->setColor($categorie->getColor());
+            $pieSlice->setColor($parent_categorie_a[$i]->getColor());
             array_push($pieSlice_a, $pieSlice);
         }
         $pieChart
             ->getOptions()
+                ->setBackgroundColor('#E6EAF3')
                 ->setSlices($pieSlice_a)
                 ->setPieHole(0.3)
                 ->setHeight(400)
@@ -86,6 +99,11 @@ class DashboardController extends Controller {
                 ->setPieSliceText('label')
                 ->getLegend()
                     ->setPosition('none');
+        $pieChart
+            ->getOptions()
+                ->getChartArea()
+                    ->setWidth('80%')
+                    ->setHeight('80%');
 
         $pieChart->getData()->setArrayToDataTable($pie_chart_data);
 

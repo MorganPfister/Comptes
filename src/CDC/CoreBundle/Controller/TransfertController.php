@@ -111,7 +111,7 @@ class TransfertController extends Controller {
 
             $transfert = new Transfert();
             $transfert->setTitre($titre);
-            $transfert->setMontant($montant);
+            $transfert->setMontant(floatval($montant));
             $transfert->setCompte($compte);
             $transfert->setCategorie($categorie);
             $transfert->setDate(\DateTime::createFromFormat('d/m/Y', $date));
@@ -130,7 +130,7 @@ class TransfertController extends Controller {
             $em->persist($transfert);
             $em->flush();
 
-            $compte->setSolde(intval($compte->getSolde()) + intval($montant));
+            $compte->setSolde(floatval($compte->getSolde()) + floatval($montant));
             $em->persist($compte);
             $em->flush();
 
@@ -255,7 +255,7 @@ class TransfertController extends Controller {
                 $moyentransfert = $repository_moyentransfert->find(intval($moyentransfert_id));
 
                 $transfert->setTitre($titre);
-                $transfert->setMontant($montant);
+                $transfert->setMontant(floatval($montant));
                 $transfert->setCompte($compte);
                 $transfert->setCategorie($categorie);
                 $transfert->setDate(\DateTime::createFromFormat('d/m/Y', $date));
@@ -274,8 +274,8 @@ class TransfertController extends Controller {
                 $em->persist($transfert);
                 $em->flush();
 
-                $compte->setSolde(intval($compte->getSolde()) - intval($old_montant));
-                $compte->setSolde(intval($compte->getSolde()) + intval($montant));
+                $compte->setSolde(floatval($compte->getSolde()) - floatval($old_montant));
+                $compte->setSolde(floatval($compte->getSolde()) + floatval($montant));
                 $em->persist($compte);
                 $em->flush();
 
