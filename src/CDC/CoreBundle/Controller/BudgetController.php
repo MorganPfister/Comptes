@@ -2,8 +2,10 @@
 
 namespace CDC\CoreBundle\Controller;
 
+use CDC\CoreBundle\Entity\BudgetInstance;
 use CDC\CoreBundle\Entity\BudgetModele;
 use CDC\CoreBundle\Entity\Categorie;
+use CDC\CoreBundle\Repository\BudgetInstanceRepository;
 use CDC\CoreBundle\Repository\BudgetModeleRepository;
 use CDC\CoreBundle\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class BudgetController extends Controller {
     public function overviewAction(){
         $user = $this->getUser();
+        $return_array = [];
 
         /** @var BudgetModeleRepository $repository_budgetmodele */
         $repository_budgetmodele = $this
@@ -28,6 +31,7 @@ class BudgetController extends Controller {
         /** @var Categorie[] $categorie_a */
         $categorie_a = $repository_categorie->getParentCategorie_a($user);
 
+        // Récupération des budgets par catégorie
         for ($i=0; $i < sizeof($categorie_a); $i++){
             $budgetmodele = $repository_budgetmodele->findBudgetModeleUsingUserAndCategorie($user, $categorie_a[$i]);
             if (sizeof($budgetmodele) == 1) {
@@ -41,10 +45,18 @@ class BudgetController extends Controller {
                 }
             }
         }
+        $return_array['categorie_a'] = $categorie_a;
 
-        return $this->render('CDCCoreBundle:Budget:overview.html.twig', [
-            'categorie_a' => $categorie_a
+        // Récupération du budget global
+        $budget_global = $repository_budgetmodele->findOneBy([
+            'user' => $user,
+            'actif' => true
         ]);
+        if ($budget_global){
+            $return_array['budget_global'] = $budget_global;
+        }
+
+        return $this->render('CDCCoreBundle:Budget:overview.html.twig', $return_array);
     }
 
     public function addBudgetModeleAction(Request $request){
@@ -110,6 +122,38 @@ class BudgetController extends Controller {
                     }
                 }
             }
+            else if ($categorie_id == -1){
+                // Check si modele global deja existant
+                $budget_modele = $repository_budgetmodele->findBy([
+                    'user' => $user,
+                    'actif' => true
+                ]);
+                if (sizeof($budget_modele) >= 1){
+                    $response = [
+                        'success' => false,
+                        'error' => 'Un budget gloabl existe déjà'
+                    ];
+                }
+
+                else {
+                    $seuil = $request->get('_seuil');
+                    $budget_modele = new BudgetModele();
+                    $budget_modele->setUser($user);
+                    $budget_modele->setSeuil($seuil);
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($budget_modele);
+                    $em->flush();
+
+                    $response = [
+                        'success' => true,
+                        'BudgetModele' => [
+                            'id' => $budget_modele->getId(),
+                            'seuil' => $seuil
+                        ]
+                    ];
+                }
+            }
         }
 
         $response = new JSONresponse($response);
@@ -139,7 +183,18 @@ class BudgetController extends Controller {
                 $budgetmodele_valid = $this->checkBudgetModeleValidity($budgetmodele->getCategorie(), $seuil);
                 if ($budgetmodele_valid){
                     $budgetmodele->setSeuil($seuil);
-                    // TODO : changer le seuil de l'instance en cours
+                    // changer le seuil de l'instance en cours
+                    /** @var BudgetInstanceRepository $repository_budgetinstance */
+                    $repository_budgetinstance = $this
+                        ->getDoctrine()
+                        ->getManager()
+                        ->getRepository('CDCCoreBundle:BudgetInstance');
+                    $current_date = new \DateTime();
+                    /** @var BudgetInstance[] $budget_instance */
+                    $budget_instance = $repository_budgetinstance->findBudgetInstanceUsingBudgetModele($budgetmodele, DashboardController::getMonthFromDatetime($current_date), DashboardController::getYearFromDatetime($current_date));
+                    if (sizeof($budget_instance) == 1){
+                        $budget_instance[0]->setSeuil($seuil);
+                    }
 
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($budgetmodele);
@@ -150,9 +205,14 @@ class BudgetController extends Controller {
                         'BudgetModele' => [
                             'id' => $budgetmodele->getId(),
                             'seuil' => $seuil,
-                            'categorie_id' => $budgetmodele->getCategorie()->getId()
                         ]
                     ];
+                    if ($budgetmodele->getCategorie()){
+                        $response['BudgetModele']['categorie_id'] = $budgetmodele->getCategorie()->getId();
+                    }
+                    else {
+                        $response['BudgetModele']['categorie_id'] = -1;
+                    }
                 }
                 else {
                     $budgetmodele->setSeuil($old_seuil);
@@ -168,56 +228,59 @@ class BudgetController extends Controller {
         return $response;
     }
 
-    public function checkBudgetModeleValidity(\CDC\CoreBundle\Entity\Categorie $categorie, $seuil){
-        $categorie_children_a = $categorie->getChildren();
-        $categorie_parent = $categorie->getParent();
-        $seuil_sum = 0;
+    public function checkBudgetModeleValidity($categorie, $seuil){
         $valid = true;
+        if ($categorie) {
+            /** @var Categorie $categorie */
+            $categorie_children_a = $categorie->getChildren();
+            $categorie_parent = $categorie->getParent();
+            $seuil_sum = 0;
+            $valid = true;
 
-        /** @var BudgetModeleRepository $repository_budgetmodele */
-        $repository_budgetmodele = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('CDCCoreBundle:BudgetModele');
+            /** @var BudgetModeleRepository $repository_budgetmodele */
+            $repository_budgetmodele = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('CDCCoreBundle:BudgetModele');
 
-        // Si c'est une catégorie parente, on regarde si la somme des budgets des catégorie enfants <= budget parent
-        if (sizeof($categorie_children_a) > 0){
-            for ($i=0; $i<sizeof($categorie_children_a); $i++){
-                /** @var BudgetModele $budget */
-                $budget = $repository_budgetmodele->findOneBy([
-                    'categorie' => $categorie_children_a[$i],
-                    'actif' => true
-                ]);
-                if ($budget) {
-                    $seuil_sum += intval($budget->getSeuil());
-                }
-            }
-            if ($seuil_sum > $seuil){
-                $valid = false;
-            }
-        }
-        // Si c'est une catégorie enfant, même vérification
-        else {
-            /** @var BudgetModele $budget_parent */
-            $budget_parent = $repository_budgetmodele->findOneBy([
-                'categorie' => $categorie_parent
-            ]);
-            if ($budget_parent){
-                $seuil_parent = $budget_parent->getSeuil();
-                $categorie_children_a = $categorie_parent->getChildren();
-                if (sizeof($categorie_children_a) > 0) {
-                    for ($i = 0; $i < sizeof($categorie_children_a); $i++) {
-                        /** @var BudgetModele $budget */
-                        $budget = $repository_budgetmodele->findOneBy([
-                            'categorie' => $categorie_children_a[$i],
-                            'actif' => true
-                        ]);
-                        if ($budget) {
-                            $seuil_sum += intval($budget->getSeuil());
-                        }
+            // Si c'est une catégorie parente, on regarde si la somme des budgets des catégorie enfants <= budget parent
+            if (sizeof($categorie_children_a) > 0) {
+                for ($i = 0; $i < sizeof($categorie_children_a); $i++) {
+                    /** @var BudgetModele $budget */
+                    $budget = $repository_budgetmodele->findOneBy([
+                        'categorie' => $categorie_children_a[$i],
+                        'actif' => true
+                    ]);
+                    if ($budget) {
+                        $seuil_sum += intval($budget->getSeuil());
                     }
-                    if ($seuil_sum + $seuil > $seuil_parent) {
-                        $valid = false;
+                }
+                if ($seuil_sum > $seuil) {
+                    $valid = false;
+                }
+            } // Si c'est une catégorie enfant, même vérification
+            else {
+                /** @var BudgetModele $budget_parent */
+                $budget_parent = $repository_budgetmodele->findOneBy([
+                    'categorie' => $categorie_parent
+                ]);
+                if ($budget_parent) {
+                    $seuil_parent = $budget_parent->getSeuil();
+                    $categorie_children_a = $categorie_parent->getChildren();
+                    if (sizeof($categorie_children_a) > 0) {
+                        for ($i = 0; $i < sizeof($categorie_children_a); $i++) {
+                            /** @var BudgetModele $budget */
+                            $budget = $repository_budgetmodele->findOneBy([
+                                'categorie' => $categorie_children_a[$i],
+                                'actif' => true
+                            ]);
+                            if ($budget) {
+                                $seuil_sum += intval($budget->getSeuil());
+                            }
+                        }
+                        if ($seuil_sum + $seuil > $seuil_parent) {
+                            $valid = false;
+                        }
                     }
                 }
             }
@@ -248,8 +311,13 @@ class BudgetController extends Controller {
 
                 $response = [
                     'success' => true,
-                    'categorie_id' => $budgetmodele->getCategorie()->getId()
                 ];
+                if($budgetmodele->getCategorie()){
+                    $response['categorie_id'] = $budgetmodele->getCategorie()->getId();
+                }
+                else {
+                    $response['categorie_id'] = -1;
+                }
             }
         }
         $response = new JSONresponse($response);

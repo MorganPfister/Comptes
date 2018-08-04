@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="CDC\CoreBundle\Repository\BudgetInstanceRepository")
  */
 class BudgetInstance {
+    protected $currentvalue;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -118,5 +120,51 @@ class BudgetInstance {
     public function getBudgetmodele()
     {
         return $this->budgetmodele;
+    }
+
+    /**
+     * Set seuil
+     *
+     * @param $seuil
+     *
+     * @return BudgetInstance
+     */
+    public function setSeuil($seuil)
+    {
+        $this->seuil= $seuil;
+
+        return $this;
+    }
+
+    /**
+     * Get seuil
+     *
+     * @return \CDC\CoreBundle\Entity\BudgetModele
+     */
+    public function getSeuil()
+    {
+        return $this->seuil;
+    }
+
+    /**
+     * Set current value
+     *
+     * @param $value
+     *
+     * @return BudgetInstance
+     */
+    public function setCurrentvalue($value){
+        $this->currentvalue = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get current value
+     *
+     * @return float
+     */
+    public function getCurrentvalue(){
+        return $this->currentvalue;
     }
 }

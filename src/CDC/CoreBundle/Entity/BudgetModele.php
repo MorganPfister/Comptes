@@ -29,9 +29,15 @@ class BudgetModele {
 
     /**
      * @ORM\ManyToOne(targetEntity="Categorie")
-     * @ORM\JoinColumn(name="categorie_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true, name="categorie_id", referencedColumnName="id")
      **/
     private $categorie;
+
+    /**
+     * @ORM\OneToOne(targetEntity="CDC\CoreBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true, name="user_id", referencedColumnName="id")
+     */
+    private $user;
 
     /**
      * @ORM\Column(type="boolean")
@@ -148,5 +154,29 @@ class BudgetModele {
     public function getActif()
     {
         return $this->actif;
+    }
+
+    /**
+     * Set user
+     *
+     * @param User $user
+     *
+     * @return BudgetModele
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

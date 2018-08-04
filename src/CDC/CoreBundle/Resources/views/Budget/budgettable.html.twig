@@ -6,6 +6,16 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="list-group list-categorie">
+                    <div class="list-group-item categorie-item categorie-budget-gloabal" data-categorie-id="-1">
+                        <i class="icon-categorie fa fa-coins" style="margin-left:15px;"></i>
+                        <span class="categorie categorie-parent">Budget global</span>
+                        {% if budget_global is defined %}
+                            <i id="delete-budget" data-budgetmodele-id="{{ budget_global.id }}" class="pull-right fa fa-minus-circle btn-delete-budget-{{ budget_global.id }}"></i>
+                            <span class="categorie-budget-seuil badge" data-budgetmodele-id="{{ budget_global.id }}" data-budget-seuil="{{ budget_global.seuil }}">{{ budget_global.seuil }}€ / mois</span>
+                        {% else %}
+                            <i id="add-budget" data-categorie-id="-1" class="pull-right fa fa-plus-circle"></i>
+                        {% endif %}
+                    </div>
                     {% for categorie in categorie_a %}
                         <div class="list-group-item categorie-item" data-categorie-id="{{ categorie.id }}">
                             <i class="child-categorie-chevron fa fa-angle-down" data-toggle="collapse" data-target="#child-categorie-{{ categorie.id }}" style="visibility:{% if categorie.children|length > 0 %}visible{% else %}hidden{% endif %}"></i>

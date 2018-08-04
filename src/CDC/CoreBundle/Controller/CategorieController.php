@@ -25,9 +25,6 @@ class CategorieController extends Controller {
             ->getRepository('CDCCoreBundle:Categorie');
         $categorie_a = $repositoryCategorie->getParentCategorie_a($user);
 
-        //var_dump(sizeof($categorie_a[0]->getChildren()));
-        //exit();
-
         return $this->render('CDCCoreBundle:Categorie:overview.html.twig', array(
             'categorie_a' => $categorie_a
         ));

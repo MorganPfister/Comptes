@@ -2,8 +2,12 @@
 
 namespace CDC\CoreBundle\Controller;
 
+use CDC\CoreBundle\Entity\BudgetInstance;
+use CDC\CoreBundle\Entity\BudgetModele;
 use CDC\CoreBundle\Entity\Categorie;
 use CDC\CoreBundle\Entity\Transfert;
+use CDC\CoreBundle\Repository\BudgetInstanceRepository;
+use CDC\CoreBundle\Repository\BudgetModeleRepository;
 use CDC\CoreBundle\Repository\CategorieRepository;
 use CDC\CoreBundle\Repository\TransfertRepository;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
@@ -23,8 +27,8 @@ class DashboardController extends Controller {
         $year = $request->get('year');
 
         $current_date = new \DateTime();
-        $current_month = date_parse($current_date->format('d-m-Y'))['month'];
-        $current_year = date_parse($current_date->format('d-m-Y'))['year'];
+        $current_month = $this->getMonthFromDatetime($current_date);
+        $current_year = $this->getYearFromDatetime($current_date);
 
         if (!$month || !$year){
             $month = $current_month;
@@ -69,6 +73,7 @@ class DashboardController extends Controller {
         $pie_chart_data = [
             ['Categorie', 'Somme']
         ];
+
         for ($i=0; $i<sizeof($parent_categorie_a); $i++){
             $sum = 0;
             $children_categorie_a = $parent_categorie_a[$i]->getChildren();
@@ -83,7 +88,6 @@ class DashboardController extends Controller {
             if ($sum_for_categorie){
                 $sum += floatval($sum_for_categorie);
             }
-
             array_push($pie_chart_data, [$parent_categorie_a[$i]->getTitre(), abs(intval($sum))]);
             $pieSlice = new PieSlice();
             $pieSlice->setColor($parent_categorie_a[$i]->getColor());
@@ -94,22 +98,71 @@ class DashboardController extends Controller {
                 ->setBackgroundColor('#E6EAF3')
                 ->setSlices($pieSlice_a)
                 ->setPieHole(0.3)
-                ->setHeight(400)
-                ->setWidth(700)
+                ->setHeight(300)
+                ->setWidth(500)
                 ->setPieSliceText('label')
                 ->getLegend()
                     ->setPosition('none');
         $pieChart
             ->getOptions()
                 ->getChartArea()
-                    ->setWidth('80%')
-                    ->setHeight('80%');
-
+                    ->setWidth('95%')
+                    ->setHeight('95%');
         $pieChart->getData()->setArrayToDataTable($pie_chart_data);
 
         $return_array['pie_chart'] = $pieChart;
 
         // Récupérer les budgets
+        /** @var BudgetModeleRepository $repository_budgetmodele */
+        $repository_budgetmodele = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CDCCoreBundle:BudgetModele');
+        /** @var BudgetModele[] $budget_modele_a */
+        $budget_modele_a = $repository_budgetmodele->findBudgetModeleUsingUser($user);
+
+        /** @var BudgetInstanceRepository $repository_budgetinstance */
+        $repository_budgetinstance = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CDCCoreBundle:BudgetInstance');
+
+        // Crée une instance de modele si inexistant pour le mois
+        for ($i=0; $i < sizeof($budget_modele_a); $i++){
+            $budget_instance = $repository_budgetinstance->findBudgetInstanceUsingBudgetModele($budget_modele_a[$i], $month, $year);
+            if (sizeof($budget_instance) < 1){
+                $new_budget_instance = new BudgetInstance();
+                $new_budget_instance->setBudgetmodele($budget_modele_a[$i]);
+                $new_budget_instance->setSeuil(floatval($budget_modele_a[$i]->getSeuil()));
+                $new_budget_instance->setDatestart(\DateTime::createFromFormat('d/m/Y', '01/'.$month.'/'.$year));
+                $number_of_day = $new_budget_instance->getDatestart()->format('t');
+                $new_budget_instance->setDateend(\DateTime::createFromFormat('d/m/Y', $number_of_day.'/'.$month.'/'.$year));
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($new_budget_instance);
+                $em->flush();
+            }
+        }
+
+        /** @var TransfertRepository $repository_transfert */
+        $repository_transfert = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CDCCoreBundle:Transfert');
+
+        /** @var BudgetInstance[] $budget_instance_a */
+        $budget_instance_a = $repository_budgetinstance->findBudgetInstanceUsingUserAndDate($user, $month, $year);
+        for ($i=0; $i < sizeof($budget_instance_a); $i++){
+            if ($budget_instance_a[$i]->getBudgetmodele()->getCategorie()) {
+                $current_value = abs(floatval($repository_transfert->getSumUsingCategorieAndDate($budget_instance_a[$i]->getBudgetmodele()->getCategorie(), $month, $year)));
+            }
+            else {
+                $current_value = abs(floatval($repository_transfert->getGlobalSumUsingUserAndDate($user, $month, $year)));
+            }
+            $budget_instance_a[$i]->setCurrentvalue($current_value);
+        }
+
+        $return_array['budget_instance_a'] = $budget_instance_a;
 
         return $this->render('CDCCoreBundle:Dashboard:overview.html.twig',
             $return_array
@@ -118,5 +171,13 @@ class DashboardController extends Controller {
 
     public function resumeAction(){
         return $this->render('CDCCoreBundle:Dashboard:resume.html.twig');
+    }
+
+    public static function getMonthFromDatetime(\DateTime $datetime){
+        return date_parse($datetime->format('d-m-Y'))['month'];
+    }
+
+    public static function getYearFromDatetime(\DateTime $datetime){
+        return date_parse($datetime->format('d-m-Y'))['year'];
     }
 }
