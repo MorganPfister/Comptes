@@ -149,7 +149,7 @@ class DashboardController extends Controller {
         foreach ($sum_by_categorie_parent_a as $categorie_id => $info){
             $categorie = $repository_categorie->find($categorie_id);
             if(!array_key_exists('tooltip', $info)){
-                $info['tooltip'] = '<tr><td><i class="'.$categorie->getIcon().'" style="color:'.$categorie->getColor().'"></i></td><td>'.$categorie->getTitre().'</td><td style="text-align: right;"><b>'.$info['sum'].'</b></td></tr>';
+                $info['tooltip'] = '<tr><td><i class="'.$categorie->getIcon().'" style="color:'.$categorie->getColor().'"></i></td><td>'.$categorie->getTitre().'</td><td style="text-align: right;"><b>'.$info['sum'].'€</b></td></tr>';
             }
             else{
                 $info['tooltip'] = '<tr style="border-bottom: 2px solid #c7d1dd;"><td><i class="'.$categorie->getIcon().'" style="color:'.$categorie->getColor().'"></i></td><td>'.$categorie->getTitre().'</td><td style="text-align: right;"><b>'.$info['sum'].'€</b></td></tr>'.$info['tooltip'];
@@ -234,11 +234,11 @@ class DashboardController extends Controller {
                 ->getRepository('CDCCoreBundle:Compte');
 
             $compte_id = $request->get('id');
-            $month = $request->get('month');
-            $year = $request->get('year');
+            $month = intval($request->get('month'));
+            $year = intval($request->get('year'));
 
             $compte = $compte_id == -1 ? null : $repository_compte->find($compte_id);
-            $pie_chart_data = $this->getDepenseByCategorieChart(4, 2018, $compte);
+            $pie_chart_data = $this->getDepenseByCategorieChart($month, $year, $compte);
 
             $response = [
                 'success' => true,

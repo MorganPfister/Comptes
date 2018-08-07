@@ -6,7 +6,10 @@ $(document).ready(function() {
     var compte_nom_a = depense_by_categorie.closest('.row').attr('data-compte-nom-a').split(',');
     var current_index = 0;
 
-    $data = {'id' :'-1', 'month': new Date().getMonth() + 1, 'year': new Date().getFullYear()};
+    $month_number = $('.resume-mois-titre').attr('data-month-number');
+    $year = $('.resume-mois-titre').attr('data-year-number');
+
+    $data = {'id' :'-1', 'month': $month_number, 'year': $year};
     $.ajax({
         url: Routing.generate("cdc_core_retrievedepenseforcompte"),
         type: "post",
