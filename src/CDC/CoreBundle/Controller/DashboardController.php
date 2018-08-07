@@ -5,14 +5,15 @@ namespace CDC\CoreBundle\Controller;
 use CDC\CoreBundle\Entity\BudgetInstance;
 use CDC\CoreBundle\Entity\BudgetModele;
 use CDC\CoreBundle\Entity\Categorie;
+use CDC\CoreBundle\Entity\Compte;
 use CDC\CoreBundle\Entity\Transfert;
 use CDC\CoreBundle\Repository\BudgetInstanceRepository;
 use CDC\CoreBundle\Repository\BudgetModeleRepository;
 use CDC\CoreBundle\Repository\CategorieRepository;
+use CDC\CoreBundle\Repository\CompteRepository;
 use CDC\CoreBundle\Repository\TransfertRepository;
-use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
-use CMEN\GoogleChartsBundle\GoogleCharts\Options\PieChart\PieSlice;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends Controller {
@@ -51,9 +52,49 @@ class DashboardController extends Controller {
         $return_array['previous_year'] = $previous_year;
 
         $return_array['month'] = $this->getMonthNames()[$month - 1];
+        $return_array['month_number'] = $month;
         $return_array['year'] = $year;
 
-        // Récupérer les dépenses par catégories (parente)
+        // Récupérer les dépenses par catégories (parente) ; par compte et cumulé
+        /** @var CompteRepository $repository_compte */
+        $repository_compte = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CDCCoreBundle:Compte');
+        /** @var Compte[] $compte_a */
+        $compte_a = $repository_compte->findBy(['user' => $user]);
+        $compte_id_a = '-1';
+        $compte_nom_a = 'Cumulé';
+        for ($i=0; $i<sizeof($compte_a); $i++){
+            $compte_id_a .= ','.$compte_a[$i]->getId();
+            $compte_nom_a .= ','.$compte_a[$i]->getNom().' ('.$compte_a[$i]->getTitulaire().')';
+        }
+        $return_array['compte_id_a'] = $compte_id_a;
+        $return_array['compte_nom_a'] = $compte_nom_a;
+
+        // Récupérer les budgets
+        $return_array['budget_instance_a'] = $this->getBudget($month, $year);
+
+        return $this->render('CDCCoreBundle:Dashboard:overview.html.twig',
+            $return_array
+        );
+    }
+
+    public function resumeAction(){
+        return $this->render('CDCCoreBundle:Dashboard:resume.html.twig');
+    }
+
+    public static function getMonthFromDatetime(\DateTime $datetime){
+        return date_parse($datetime->format('d-m-Y'))['month'];
+    }
+
+    public static function getYearFromDatetime(\DateTime $datetime){
+        return date_parse($datetime->format('d-m-Y'))['year'];
+    }
+
+    public function getDepenseByCategorieChart($month, $year, Compte $compte=null){
+        $user = $this->getUser();
+
         /** @var TransfertRepository $repository_transfert */
         $repository_transfert = $this
             ->getDoctrine()
@@ -66,53 +107,68 @@ class DashboardController extends Controller {
             ->getManager()
             ->getRepository('CDCCoreBundle:Categorie');
         /** @var Categorie[] $parent_categorie_a */
-        $parent_categorie_a = $repository_categorie->getParentCategorie_a($user);
 
-        $pieChart = new PieChart();
-        $pieSlice_a = [];
-        $pie_chart_data = [
-            ['Categorie', 'Somme']
+
+        $pie_chart_data['columns'] = [
+            'Catégorie' => 'string',
+            'Somme' => 'number'
         ];
 
-        for ($i=0; $i<sizeof($parent_categorie_a); $i++){
-            $sum = 0;
-            $children_categorie_a = $parent_categorie_a[$i]->getChildren();
-            for($j = 0; $j < sizeof($children_categorie_a);$j++){
-                $categorie = $children_categorie_a[$j];
-                $sum_for_categorie = $repository_transfert->getSumUsingCategorieAndDate($categorie, $month, $year);
-                if ($sum_for_categorie){
-                    $sum += floatval($sum_for_categorie);
+        $sum_by_categorie_a = $repository_transfert->getSumDepenseByCategorie($user, $month, $year, $compte);
+        $sum_by_categorie_parent_a = [];
+
+        for($i=0; $i<sizeof($sum_by_categorie_a); $i++){
+            /** @var Categorie $categorie */
+            $categorie = $repository_categorie->find($sum_by_categorie_a[$i]['id']);
+            if (!$categorie->getParent()){
+                if (array_key_exists($categorie->getId(), $sum_by_categorie_parent_a)){
+                    $sum_by_categorie_parent_a[$categorie->getId()]['sum'] += abs(floatval($sum_by_categorie_a[$i][1]));
+                }
+                else {
+                    $sum_by_categorie_parent_a[$categorie->getId()]['sum'] = abs(floatval($sum_by_categorie_a[$i][1]));
                 }
             }
-            $sum_for_categorie = $repository_transfert->getSumUsingCategorieAndDate($parent_categorie_a[$i], $month, $year);
-            if ($sum_for_categorie){
-                $sum += floatval($sum_for_categorie);
+            else {
+                if (array_key_exists($categorie->getParent()->getId(), $sum_by_categorie_parent_a)){
+                    $sum_by_categorie_parent_a[$categorie->getParent()->getId()]['sum'] += abs(floatval($sum_by_categorie_a[$i][1]));
+                }
+                else {
+                    $sum_by_categorie_parent_a[$categorie->getParent()->getId()]['sum'] = abs(floatval($sum_by_categorie_a[$i][1]));
+                }
+
+                if (array_key_exists('tooltip', $sum_by_categorie_parent_a[$categorie->getParent()->getId()])){
+                    $sum_by_categorie_parent_a[$categorie->getParent()->getId()]['tooltip'] .= '<tr><td><i class="'.$categorie->getIcon().'" style="color:'.$categorie->getColor().'"></i></td><td>'.$categorie->getTitre().'</td><td style="text-align: right;"><b>'.abs($sum_by_categorie_a[$i][1]).'€</b></td></tr>';
+                }
+                else {
+                    $sum_by_categorie_parent_a[$categorie->getParent()->getId()]['tooltip'] = '<tr><td><i class="'.$categorie->getIcon().'" style="color:'.$categorie->getColor().'"></i></td><td>'.$categorie->getTitre().'</td><td style="text-align: right;"><b>'.abs($sum_by_categorie_a[$i][1]).'€</b></td></tr>';
+                }
             }
-            array_push($pie_chart_data, [$parent_categorie_a[$i]->getTitre(), abs(intval($sum))]);
-            $pieSlice = new PieSlice();
-            $pieSlice->setColor($parent_categorie_a[$i]->getColor());
-            array_push($pieSlice_a, $pieSlice);
         }
-        $pieChart
-            ->getOptions()
-                ->setBackgroundColor('#E6EAF3')
-                ->setSlices($pieSlice_a)
-                ->setPieHole(0.3)
-                ->setHeight(300)
-                ->setWidth(500)
-                ->setPieSliceText('label')
-                ->getLegend()
-                    ->setPosition('none');
-        $pieChart
-            ->getOptions()
-                ->getChartArea()
-                    ->setWidth('95%')
-                    ->setHeight('95%');
-        $pieChart->getData()->setArrayToDataTable($pie_chart_data);
 
-        $return_array['pie_chart'] = $pieChart;
+        $pie_chart_data['slices_color'] = [];
+        foreach ($sum_by_categorie_parent_a as $categorie_id => $info){
+            $categorie = $repository_categorie->find($categorie_id);
+            if(!array_key_exists('tooltip', $info)){
+                $info['tooltip'] = '<tr><td><i class="'.$categorie->getIcon().'" style="color:'.$categorie->getColor().'"></i></td><td>'.$categorie->getTitre().'</td><td style="text-align: right;"><b>'.$info['sum'].'</b></td></tr>';
+            }
+            else{
+                $info['tooltip'] = '<tr style="border-bottom: 2px solid #c7d1dd;"><td><i class="'.$categorie->getIcon().'" style="color:'.$categorie->getColor().'"></i></td><td>'.$categorie->getTitre().'</td><td style="text-align: right;"><b>'.$info['sum'].'€</b></td></tr>'.$info['tooltip'];
+            }
+            $pie_chart_data['rows'][$categorie->getTitre()] = [
+                'sum' => $info['sum'],
+                'color' => $categorie->getColor(),
+                'tooltip' => '<div style="padding: 5px;"><table>'.$info['tooltip'].'</table></div>'
+            ];
+            array_push($pie_chart_data['slices_color'], $categorie->getColor());
+            next($sum_by_categorie_parent_a);
+        }
 
-        // Récupérer les budgets
+        return $pie_chart_data;
+    }
+
+    public function getBudget($month, $year){
+        $user = $this->getUser();
+
         /** @var BudgetModeleRepository $repository_budgetmodele */
         $repository_budgetmodele = $this
             ->getDoctrine()
@@ -162,22 +218,35 @@ class DashboardController extends Controller {
             $budget_instance_a[$i]->setCurrentvalue($current_value);
         }
 
-        $return_array['budget_instance_a'] = $budget_instance_a;
-
-        return $this->render('CDCCoreBundle:Dashboard:overview.html.twig',
-            $return_array
-        );
+        return $budget_instance_a;
     }
 
-    public function resumeAction(){
-        return $this->render('CDCCoreBundle:Dashboard:resume.html.twig');
-    }
+    public function retrieveDepenseForCompteAction(Request $request){
+        $user = $this->getUser();
+        $response = [
+            'success' => false
+        ];
 
-    public static function getMonthFromDatetime(\DateTime $datetime){
-        return date_parse($datetime->format('d-m-Y'))['month'];
-    }
+        if ($request->isMethod('POST')){
+            $repository_compte = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('CDCCoreBundle:Compte');
 
-    public static function getYearFromDatetime(\DateTime $datetime){
-        return date_parse($datetime->format('d-m-Y'))['year'];
+            $compte_id = $request->get('id');
+            $month = $request->get('month');
+            $year = $request->get('year');
+
+            $compte = $compte_id == -1 ? null : $repository_compte->find($compte_id);
+            $pie_chart_data = $this->getDepenseByCategorieChart(4, 2018, $compte);
+
+            $response = [
+                'success' => true,
+                'pie_chart_data' => $pie_chart_data
+            ];
+        }
+
+        $response = new JSONresponse($response);
+        return $response;
     }
 }

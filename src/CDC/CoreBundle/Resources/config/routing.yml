@@ -17,6 +17,16 @@ cdc_core_resumepage:
     requirements:
         format: html|xml
 
+cdc_core_retrievedepenseforcompte:
+    path: /dashboard/retrievedepenseforcompte
+    defaults:
+        _controller: CDCCoreBundle:Dashboard:retrieveDepenseForCompte
+        format: html
+    requirements:
+        format: html
+    options:
+        expose: true
+
 #############################
 #         TRANSFERT         #
 #############################

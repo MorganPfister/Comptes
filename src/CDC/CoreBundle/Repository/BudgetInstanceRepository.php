@@ -45,7 +45,9 @@ class BudgetInstanceRepository extends EntityRepository {
                 ->setParameter('year', $year);
 
         $budget_global = $qb->getQuery()->getResult();
-        array_unshift($result, $budget_global[0]);
+        if ($budget_global){
+            array_unshift($result, $budget_global[0]);
+        }
 
         return $result;
     }

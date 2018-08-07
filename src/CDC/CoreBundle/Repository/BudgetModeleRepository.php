@@ -36,7 +36,9 @@ class BudgetModeleRepository extends EntityRepository {
                 ->setParameter('actif', true);
 
         $budget_global = $qb->getQuery()->getResult();
-        array_push($result, $budget_global[0]);
+        if ($budget_global){
+            array_unshift($result, $budget_global[0]);
+        }
 
         return $result;
     }

@@ -67,6 +67,7 @@ html,body,#container-main {
 
 #main-page {
     padding-left: 40px;
+    padding-right: 40px;
     padding-top: 15px;
     background-color: #e6ebf3;
     height: 100%;
@@ -218,13 +219,13 @@ html,body,#container-main {
 }
 
 .resume-mois-titre {
-    border: 1px solid #2e6da4;
+    border: 1px solid #337ab7;
     border-radius: 15px;
     height: 45px;
     padding-top: 8px;
     font-size: 20px;
     font-weight: bold;
-    background-color: #3E75B5;
+    background-color: #337ab7;
     color: white;
 }
 
@@ -248,4 +249,13 @@ html,body,#container-main {
 @keyframes animateBar {
     0% {transform: translateX(-100%);}
     100% {transform: translateX(0);}
+}
+
+.compte-titre-nav{
+    font-size: 10px;
+    color: #90837a;
+}
+
+.compte-titre-current{
+    font-weight: bold;
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace CDC\CoreBundle\Repository;
+use CDC\CoreBundle\Entity\Compte;
 use Doctrine\ORM\EntityRepository;
 
 class TransfertRepository extends EntityRepository {
@@ -24,44 +25,20 @@ class TransfertRepository extends EntityRepository {
         return $result;
     }
 
-    public function getSumGroupByCategorieUsingUserAndDate($user, $month, $year){
-        $query = $this->_em->createQuery('
-            SELECT IDENTITY(t.categorie), SUM(t.montant)
-            FROM CDCCoreBundle:Transfert t
-            INNER JOIN CDCCoreBundle:Compte c 
-              WITH t.compte = c
-            INNER JOIN CDCCoreBundle:Categorie ca
-              WITH t.categorie = ca
-            WHERE ca.actif = true
-              AND MONTH(t.date) = ?1
-              AND YEAR(t.date) = ?2
-              AND c.user = ?3
-              AND t.montant < 0
-            GROUP BY t.categorie
-        ');
-        $query->setParameter(1, $month)
-            ->setParameter(2, $year)
-            ->setParameter(3, $user);
-
-        $result = $query->getResult();
-        return $result;
-    }
-
     public function getSumUsingCategorieAndDate($categorie, $month, $year){
-        $query = $this->_em->createQuery('
-            SELECT SUM(t.montant)
-            FROM CDCCoreBundle:Transfert t
-            WHERE t.categorie = ?1
-              AND t.montant < 0
-              AND MONTH(t.date) = ?2
-              AND YEAR(t.date) = ?3
-            GROUP BY t.categorie
-        ');
-        $query->setParameter(1, $categorie)
-            ->setParameter(2, $month)
-            ->setParameter(3, $year);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(['SUM(t.montant)'])
+            ->from('CDCCoreBundle:Transfert', 't')
+            ->where('t.montant < 0')
+            ->andWhere('MONTH(t.date) = :month')
+                ->setParameter('month', $month)
+            ->andWhere('YEAR(t.date) = :year')
+                ->setParameter('year', $year)
+            ->andWhere('t.categorie = :categorie')
+                ->setParameter('categorie', $categorie);
 
-        $result = $query->getResult();
+        $result = $qb->getQuery()->getResult();
+
         if ($result) {
             $ret = $result[0][1];
         }
@@ -69,6 +46,30 @@ class TransfertRepository extends EntityRepository {
             $ret = null;
         }
         return $ret;
+    }
+
+    public function getSumDepenseByCategorie($user, $month, $year, Compte $compte=null){
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(['ca.id, SUM(t.montant)'])
+            ->from('CDCCoreBundle:Transfert', 't')
+            ->innerJoin('t.categorie', 'ca', 'WITH', 'ca.user = :user')
+                ->setParameter('user', $user);
+
+        if($compte){
+            $qb->innerJoin('t.compte', 'c', 'WITH', 'c.id = :id')
+                ->setParameter('id', $compte->getId());
+        }
+
+        $qb->where('t.montant < 0')
+            ->andWhere('MONTH(t.date) = :month')
+                ->setParameter('month', $month)
+            ->andWhere('YEAR(t.date) = :year')
+                ->setParameter('year', $year);
+
+        $qb->groupBy('t.categorie');
+
+        $result = $qb->getQuery()->getResult();
+        return $result;
     }
 
     public function getGlobalSumUsingUserAndDate($user, $month, $year){
