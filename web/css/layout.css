@@ -251,11 +251,20 @@ html,body,#container-main {
     100% {transform: translateX(0);}
 }
 
-.compte-titre-nav{
+.depense-compte-titre-nav{
     font-size: 10px;
     color: #90837a;
 }
 
-.compte-titre-current{
+.depense-compte-titre-current{
+    font-weight: bold;
+}
+
+.balance-compte-titre-nav{
+    font-size: 10px;
+    color: #90837a;
+}
+
+.balance-compte-titre-current{
     font-weight: bold;
 }

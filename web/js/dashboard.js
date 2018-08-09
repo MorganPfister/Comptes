@@ -72,15 +72,18 @@ function drawPieChart(pie_chart_data){
     data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
 
     var slice_color = [];
-    for(var row_name in pie_chart_data['rows']){
-        data.addRow(
-            [row_name, pie_chart_data['rows'][row_name]['sum'], pie_chart_data['rows'][row_name]['tooltip']]
-        );
-        slice_color.push({color:pie_chart_data['rows'][row_name]['color']});
+    if ('rows' in pie_chart_data) {
+        for (var row_name in pie_chart_data['rows']) {
+            data.addRow(
+                [row_name, pie_chart_data['rows'][row_name]['sum'], pie_chart_data['rows'][row_name]['tooltip']]
+            );
+            slice_color.push({color: pie_chart_data['rows'][row_name]['color']});
+        }
     }
+
     var options = {
         'width': 500,
-        'height': 300,
+        'height': 400,
         'pieHole': 0.3,
         'legend' : {position: 'none'},
         'chartArea': {left: 65, width:'95%', height:'95%'},

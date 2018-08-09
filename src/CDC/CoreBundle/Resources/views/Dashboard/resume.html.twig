@@ -1,0 +1,81 @@
+{% extends "CDCCoreBundle:Core:layout.html.twig" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1 data-id="0" class="page-header">
+                <i class="fa fa-tachometer-alt" id="sidenav-span"></i>Tableau de bord
+                <small>Une vue globale sur vos comptes</small>
+            </h1>
+            <hr class="page-header-half-rule" />
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom:30px;">
+        <div class="col-lg-1">
+            <a href="{{ path('cdc_core_dashboardpage', {'month' : previous_month, 'year' : previous_year}) }}" type="button" class="btn btn-lg btn-primary"><i class="fa fa-chevron-left"></i></a>
+        </div>
+        <div class="col-lg-10 text-center">
+            <div class="resume-mois-titre">Résumé global</div>
+        </div>
+        <div class="col-lg-1">
+            <a href="#" type="button" class="btn btn-lg pull-right btn-primary" disabled=""><i class="fa fa-chevron-right"></i></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="grid">
+                <div class="grid-body profile">
+                    <div class="row" data-compte-id-a="{{ compte_id_a }}" data-compte-nom-a="{{ compte_nom_a }}" style="margin-bottom:15px;margin-top:15px;">
+                        <div class="col-lg-1 text-center">
+                            <i class="fa fa-chevron-left balance-nav" data-direction="-1"></i>
+                        </div>
+
+                        <div class="col-lg-3 text-center balance-compte-titre-nav" data-direction="-1"></div>
+                        <div class="col-lg-4 text-center balance-compte-titre-current"></div>
+                        <div class="col-lg-3 text-center balance-compte-titre-nav" data-direction="1"></div>
+
+                        <div class="col-lg-1 text-center">
+                            <i class="fa fa-chevron-right balance-nav" data-direction="1"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="dashboard_combo_chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="grid">
+                <div class="grid-body profile">
+                    <div class="row" style="margin-bottom:15px;margin-top:15px;">
+                        <div class="col-lg-1">
+                            <i class="fa fa-chevron-left depense-by-categorie-nav" data-direction="-1"></i>
+                        </div>
+
+                        <div class="col-lg-3 text-center depense-compte-titre-nav" data-direction="-1"></div>
+                        <div class="col-lg-4 text-center depense-compte-titre-current"></div>
+                        <div class="col-lg-3 text-center depense-compte-titre-nav" data-direction="1"></div>
+
+                        <div class="col-lg-1">
+                            <i class="fa fa-chevron-right depense-by-categorie-nav" data-direction="1"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="dashboard_pie_chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block style %}
+    <script src="{{ asset('js/dashboard_resume.js') }}"></script>
+{% endblock %}

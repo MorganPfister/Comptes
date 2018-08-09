@@ -54,8 +54,19 @@
                     <div class="col-lg-12">
                         {% for budget_instance in budget_instance_a %}
                             {% set width = (budget_instance.currentvalue * 100)/budget_instance.seuil %}
-                            <div class="progress text-center">
-                                <div class="progress-bar
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    {% if budget_instance.budgetmodele.categorie %}
+                                        <i class="{{ budget_instance.budgetmodele.categorie.icon }}" style="color:{{ budget_instance.budgetmodele.categorie.color }}"></i>
+                                        {{ budget_instance.budgetmodele.categorie.titre }}
+                                    {% else %}
+                                        <i class="fa fa-coins"></i>
+                                        Global
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="progress text-center">
+                                        <div class="progress-bar
                                     {% if budget_instance.currentvalue < budget_instance.seuil %}
                                         progress-bar-success
                                     {% else %}
@@ -63,13 +74,10 @@
                                     {% endif %}
                                     progress-bar-striped" role="progressbar" aria-valuenow="{{ budget_instance.currentvalue }}" aria-valuemin="0" aria-valuemax="{{ budget_instance.seuil }}" style="width:{{ width }}%">
                                     <span><b>
-                                        {% if budget_instance.budgetmodele.categorie %}
-                                            {{ budget_instance.budgetmodele.categorie.titre }}
-                                        {% else %}
-                                            Global
-                                        {% endif %}
-                                         : {{ budget_instance.currentvalue }} / {{ budget_instance.seuil }}
+                                        {{ budget_instance.currentvalue }} / {{ budget_instance.seuil }} €
                                     </b></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}

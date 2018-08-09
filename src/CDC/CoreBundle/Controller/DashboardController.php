@@ -81,7 +81,107 @@ class DashboardController extends Controller {
     }
 
     public function resumeAction(){
-        return $this->render('CDCCoreBundle:Dashboard:resume.html.twig');
+        $user = $this->getUser();
+        $return_array = [];
+
+        $current_date = new \DateTime();
+        $month = $this->getMonthFromDatetime($current_date);
+        $year = $this->getYearFromDatetime($current_date);
+        $return_array['previous_month'] = $month;
+        $return_array['previous_year'] = $year;
+
+        /** @var CompteRepository $repository_compte */
+        $repository_compte = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CDCCoreBundle:Compte');
+        /** @var Compte[] $compte_a */
+        $compte_a = $repository_compte->findBy(['user' => $user]);
+        $compte_id_a = '-1';
+        $compte_nom_a = 'Cumulé';
+        for ($i=0; $i<sizeof($compte_a); $i++){
+            $compte_id_a .= ','.$compte_a[$i]->getId();
+            $compte_nom_a .= ','.$compte_a[$i]->getNom().' ('.$compte_a[$i]->getTitulaire().')';
+        }
+        $return_array['compte_id_a'] = $compte_id_a;
+        $return_array['compte_nom_a'] = $compte_nom_a;
+
+        return $this->render('CDCCoreBundle:Dashboard:resume.html.twig', $return_array);
+    }
+
+    public function getBalanceChartAction(Request $request){
+        $response = [
+            'success' => false
+        ];
+
+        if ($request->isMethod('POST')) {
+            $months_number = intval($request->get('months_number'));
+            $compte_id = intval($request->get('compte_id'));
+            /** @var CompteRepository $repository_compte */
+            $repository_compte = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('CDCCoreBundle:Compte');
+            $compte = $compte_id > 0 ? $repository_compte->find($compte_id) : null;
+
+            $combo_chart_data = $this->getSoldeAndBalanceOverMonth($months_number, $compte);
+            array_unshift($combo_chart_data, ['Mois', 'Revenus', 'Dépenses', 'Solde']);
+
+            $response = [
+                'success' => true,
+                'combo_chart_data' => $combo_chart_data
+            ];
+        }
+
+        $response = new JSONresponse($response);
+        return $response;
+    }
+
+    private function getSoldeAndBalanceOverMonth($months_number, Compte $compte = null){
+        $user = $this->getUser();
+        $combo_chart_data = [];
+
+        /** @var CompteRepository $repository_compte */
+        $repository_compte = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CDCCoreBundle:Compte');
+
+        /** @var TransfertRepository $repository_transfert */
+        $repository_transfert = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CDCCoreBundle:Transfert');
+
+        if (!$compte){
+            $current_solde = 0;
+            /** @var Compte[] $compte_a */
+            $compte_a = $repository_compte->findBy([
+                'user' => $user
+            ]);
+            for ($i=0; $i<sizeof($compte_a); $i++){
+                $current_solde += floatval($compte_a[$i]->getSolde());
+            }
+        }
+        else {
+            $current_solde = floatval($compte->getSolde());
+        }
+        $solde = $current_solde;
+
+        $month = self::getMonthFromDatetime(new \DateTime());
+        $year = self::getYearFromDatetime(new \DateTime());
+        for ($i=0; $i<$months_number; $i++){
+            $income = floatval($repository_transfert->getIncomeUsingDateAndCompte($user, $month, $year, $compte));
+            $depense = floatval($repository_transfert->getDepenseUsingDateAndCompte($user, $month, $year, $compte));
+            $balance = floatval($income + $depense);
+            array_unshift($combo_chart_data, [$month.'/'.$year, $income, abs($depense), $solde]);
+
+            $solde -= $balance;
+            $month = $month > 1 ? $month - 1 : 12;
+            $year = $month > 1 ? $year : $year - 1;
+        }
+
+        return $combo_chart_data;
     }
 
     public static function getMonthFromDatetime(\DateTime $datetime){
@@ -92,7 +192,7 @@ class DashboardController extends Controller {
         return date_parse($datetime->format('d-m-Y'))['year'];
     }
 
-    public function getDepenseByCategorieChart($month, $year, Compte $compte=null){
+    public function getDepenseByCategorieChart($month = null, $year = null, Compte $compte=null){
         $user = $this->getUser();
 
         /** @var TransfertRepository $repository_transfert */
@@ -107,7 +207,6 @@ class DashboardController extends Controller {
             ->getManager()
             ->getRepository('CDCCoreBundle:Categorie');
         /** @var Categorie[] $parent_categorie_a */
-
 
         $pie_chart_data['columns'] = [
             'Catégorie' => 'string',
@@ -222,7 +321,6 @@ class DashboardController extends Controller {
     }
 
     public function retrieveDepenseForCompteAction(Request $request){
-        $user = $this->getUser();
         $response = [
             'success' => false
         ];
@@ -234,10 +332,10 @@ class DashboardController extends Controller {
                 ->getRepository('CDCCoreBundle:Compte');
 
             $compte_id = $request->get('id');
-            $month = intval($request->get('month'));
-            $year = intval($request->get('year'));
-
+            $month = intval($request->get('month')) == -1 ? null : intval($request->get('month'));
+            $year = intval($request->get('year')) == -1 ? null : intval($request->get('year'));
             $compte = $compte_id == -1 ? null : $repository_compte->find($compte_id);
+
             $pie_chart_data = $this->getDepenseByCategorieChart($month, $year, $compte);
 
             $response = [

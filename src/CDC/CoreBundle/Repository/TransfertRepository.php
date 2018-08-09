@@ -48,7 +48,7 @@ class TransfertRepository extends EntityRepository {
         return $ret;
     }
 
-    public function getSumDepenseByCategorie($user, $month, $year, Compte $compte=null){
+    public function getSumDepenseByCategorie($user, $month = null, $year = null, Compte $compte=null){
         $qb = $this->_em->createQueryBuilder();
         $qb->select(['ca.id, SUM(t.montant)'])
             ->from('CDCCoreBundle:Transfert', 't')
@@ -60,11 +60,14 @@ class TransfertRepository extends EntityRepository {
                 ->setParameter('id', $compte->getId());
         }
 
-        $qb->where('t.montant < 0')
-            ->andWhere('MONTH(t.date) = :month')
-                ->setParameter('month', $month)
-            ->andWhere('YEAR(t.date) = :year')
-                ->setParameter('year', $year);
+        $qb->where('t.montant < 0');
+
+        if ($month && $year){
+            $qb->andWhere('MONTH(t.date) = :month')
+                    ->setParameter('month', $month)
+                ->andWhere('YEAR(t.date) = :year')
+                    ->setParameter('year', $year);
+        }
 
         $qb->groupBy('t.categorie');
 
@@ -83,6 +86,62 @@ class TransfertRepository extends EntityRepository {
                 ->setParameter('month', $month)
             ->andWhere('YEAR(t.date) = :year')
                 ->setParameter('year', $year);
+
+        $result = $qb->getQuery()->getResult();
+
+        if ($result) {
+            $ret = $result[0][1];
+        }
+        else {
+            $ret = null;
+        }
+        return $ret;
+    }
+
+    public function getDepenseUsingDateAndCompte($user, $month, $year, Compte $compte=null){
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(['SUM(t.montant)'])
+            ->from('CDCCoreBundle:Transfert', 't')
+            ->innerJoin('t.compte', 'c', 'WITH', 'c.user = :user')
+                ->setParameter('user', $user)
+            ->where('t.montant < 0')
+            ->andWhere('MONTH(t.date) = :month')
+                ->setParameter('month', $month)
+            ->andWhere('YEAR(t.date) = :year')
+                ->setParameter('year', $year);
+
+        if ($compte){
+            $qb->andWhere('c.id = :id')
+                ->setParameter('id', $compte->getId());
+        }
+
+        $result = $qb->getQuery()->getResult();
+
+        if ($result) {
+            $ret = $result[0][1];
+        }
+        else {
+            $ret = null;
+        }
+        return $ret;
+    }
+
+    public function getIncomeUsingDateAndCompte($user, $month, $year, Compte $compte=null){
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(['SUM(t.montant)'])
+            ->from('CDCCoreBundle:Transfert', 't')
+            ->innerJoin('t.compte', 'c', 'WITH', 'c.user = :user')
+                ->setParameter('user', $user)
+            ->where('t.montant > 0')
+            ->andWhere('MONTH(t.date) = :month')
+                ->setParameter('month', $month)
+            ->andWhere('YEAR(t.date) = :year')
+                ->setParameter('year', $year);
+
+        if ($compte){
+            $qb->andWhere('c.id = :id')
+                ->setParameter('id', $compte->getId());
+        }
 
         $result = $qb->getQuery()->getResult();
 

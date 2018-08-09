@@ -27,6 +27,16 @@ cdc_core_retrievedepenseforcompte:
     options:
         expose: true
 
+cdc_core_getbalancechart:
+    path: /dashboard/getbalancechart
+    defaults:
+        _controller: CDCCoreBundle:Dashboard:getBalanceChart
+        format: html
+    requirements:
+        format: html
+    options:
+        expose: true
+
 #############################
 #         TRANSFERT         #
 #############################
